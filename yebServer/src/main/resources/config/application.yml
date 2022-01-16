@@ -24,3 +24,13 @@ mybatis-plus:
 logging:
   level:
     edu.seu.server.mapper: debug
+# jwt配置
+jwt:
+  # 存储jwt的请求头
+  tokenHeader: Authorization
+  # JWT加密使用的密钥(secret盐)
+  secret: yeb-secret
+  # token过期时间
+  expiration: 604800
+  # JWT令牌开头
+  tokenHead: Bearer
