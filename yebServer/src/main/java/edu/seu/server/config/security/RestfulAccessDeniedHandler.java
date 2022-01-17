@@ -23,7 +23,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
                        AccessDeniedException e) throws IOException {
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json");
-        ResponseBean bean = ResponseBean.error("403", "您的权限不足！", null);
+        ResponseBean bean = ResponseBean.error(403, "您的权限不足！", null);
         PrintWriter pw = httpServletResponse.getWriter();
         pw.write(new ObjectMapper().writeValueAsString(bean));
         pw.flush();

@@ -40,7 +40,7 @@ public class AdminController {
     @ApiOperation(value = "获取当前登录的用户信息")
     public ResponseBean getAdminInfo(Principal principal) {
         if (null == principal) {
-            return ResponseBean.error("500", "用户未登录", null);
+            return ResponseBean.error(500, "用户未登录", null);
         } else {
             String username = principal.getName();
             Admin admin = adminService.getAdminByUsername(username);

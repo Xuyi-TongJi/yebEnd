@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,17 +40,23 @@ public class LoginController {
     /**
      * 配合SpringSecurity的UserDetailsService的loadByUsername方法进行用户登录的服务，如果登录成功，则需要生成相应令牌并返回给前端
      * @param adminLogin admin的登录dto,@RequestBody注解必须使用JSON格式，不能使用x-www-form-urlencoded
+     * @param request HttpServletRequest，用于验证验证码时获取Session中存储的验证码
      * @return ResponseBean：登录成功，返回带有tokenMap的公共返回对象；登录失败，返回失败的相应原因
      */
     @ApiOperation(value = "登录之后返回Token")
     @PostMapping("/login")
-    public ResponseBean login(@RequestBody AdminLogin adminLogin) {
+    public ResponseBean login(@RequestBody AdminLogin adminLogin, HttpServletRequest request) {
+        // 校验验证码
+        String codeText = (String) request.getSession().getAttribute("captcha");
+        if (codeText == null || !codeText.equals(adminLogin.getCode())) {
+            return ResponseBean.error(500, "验证码错误", null);
+        }
         // 登录
         UserDetails userDetails = userDetailsService.loadUserByUsername(adminLogin.getUsername());
         if (null == userDetails || !passwordEncoder.matches(adminLogin.getPassword(), userDetails.getPassword())) {
-            return ResponseBean.error("500", "用户名或密码错误!", null);
+            return ResponseBean.error(500, "用户名或密码错误!", null);
         } else if(!userDetails.isEnabled()) {
-            return ResponseBean.error("500", "账号被禁用!", null);
+            return ResponseBean.error(500, "账号被禁用!", null);
         }
         // 更新spring security登录用户对象
         UsernamePasswordAuthenticationToken authenticationToken

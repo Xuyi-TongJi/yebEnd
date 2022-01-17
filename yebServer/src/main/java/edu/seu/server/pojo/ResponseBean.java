@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseBean {
-    private String status;
+    private Integer status;
     private String message;
     private Object obj;
 
@@ -23,7 +23,7 @@ public class ResponseBean {
      * @return ResponseBean公共返回对象
      */
     public static ResponseBean success(String message, Object obj) {
-        return new ResponseBean("200", message, obj);
+        return new ResponseBean(200, message, obj);
     }
 
     /**
@@ -33,7 +33,7 @@ public class ResponseBean {
      * @param obj 返回对象，通常是Json或null
      * @return ResponseBean公共返回对象
      */
-    public static ResponseBean error(String status, String message, Object obj) {
+    public static ResponseBean error(Integer status, String message, Object obj) {
         return new ResponseBean(status, message, obj);
     }
 }
