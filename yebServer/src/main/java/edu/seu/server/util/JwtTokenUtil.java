@@ -3,6 +3,7 @@ package edu.seu.server.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +24,10 @@ public class JwtTokenUtil {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
     private String secret;
+    @Getter
     private String tokenHeader;
     private Long expiration;
+    @Getter
     private String tokenHead;
 
     /**
@@ -87,7 +90,7 @@ public class JwtTokenUtil {
                 .builder()
                 .setClaims(claims)
                 .setExpiration(setTokenExpiration())
-                .signWith(SignatureAlgorithm.ES512, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 

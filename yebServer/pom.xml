@@ -19,6 +19,7 @@
         <swagger.version>1.6.2</swagger.version>
         <swagger-springfox.version>2.7.0</swagger-springfox.version>
         <swagger-ui.version>1.9.6</swagger-ui.version>
+        <kaptcha.version>0.0.9</kaptcha.version>
     </properties>
 
     <dependencies>
@@ -73,6 +74,11 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>${swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.axet</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
         </dependency>
     </dependencies>
 </project>

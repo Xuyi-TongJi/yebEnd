@@ -1,7 +1,10 @@
 package edu.seu.server.service;
 
-import edu.seu.server.pojo.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
+import edu.seu.server.pojo.Admin;
+import edu.seu.server.pojo.ResponseBean;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IAdminService extends IService<Admin> {
 
+    /**
+     * 根据当前登录用户的用户名（通过Principal对象获得）获得完整的登录用户信息
+     * @param username 用户名字符串
+     * @return 包含当前登录用户的所有信息的pojo（实体类）
+     */
+    Admin getAdminByUsername(String username);
 }

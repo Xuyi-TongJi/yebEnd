@@ -4,14 +4,18 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Collection;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
- * 
+ * Admin实体类，这个类需要实现UserDetails，作为Spring Security框架UserDetailsService接口登录功能的返回对象
  * </p>
  *
  * @author xuyitjuseu
@@ -21,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_admin")
 @ApiModel(value="Admin对象", description="")
-public class Admin implements Serializable {
+public class Admin implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -56,5 +60,36 @@ public class Admin implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    /**
+     * 获取该UserDetails所具有的权限
+     * @return 权限类Collection集合
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    /**
+     * 是否启用，为数据库中查得的该用户的相应属性
+     * @return enabled布尔值
+     */
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

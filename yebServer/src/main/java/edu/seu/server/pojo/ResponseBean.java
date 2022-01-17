@@ -33,7 +33,7 @@ public class ResponseBean {
      * @param obj 返回对象，通常是Json或null
      * @return ResponseBean公共返回对象
      */
-    public static ResponseBean failure(String status, String message, Object obj) {
+    public static ResponseBean error(String status, String message, Object obj) {
         return new ResponseBean(status, message, obj);
     }
 }
