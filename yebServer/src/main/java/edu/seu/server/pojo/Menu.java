@@ -1,9 +1,12 @@
 package edu.seu.server.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -56,5 +59,11 @@ public class Menu implements Serializable {
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
-
+    /**
+     * 子菜单为当前菜单实体类的子菜单，用于前端多级表的生成
+     * 使用@TableField注解标识当前属性不是t_menu表的某个字段
+     */
+    @ApiModelProperty(value = "子菜单")
+    @TableField(exist = false)
+    private List<Menu> children;
 }

@@ -3,11 +3,17 @@ package edu.seu.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.seu.server.mapper.AdminMapper;
+import edu.seu.server.mapper.MenuMapper;
+import edu.seu.server.mapper.MenuRoleMapper;
 import edu.seu.server.pojo.Admin;
+import edu.seu.server.pojo.Menu;
 import edu.seu.server.service.IAdminService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>

@@ -2,7 +2,10 @@ package edu.seu.server.mapper;
 
 import edu.seu.server.pojo.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import edu.seu.server.pojo.Menu;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
