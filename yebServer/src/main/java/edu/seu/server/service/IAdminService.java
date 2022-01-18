@@ -2,10 +2,8 @@ package edu.seu.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.pojo.Admin;
-import edu.seu.server.pojo.Menu;
-import edu.seu.server.pojo.ResponseBean;
+import edu.seu.server.pojo.Role;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -24,4 +22,11 @@ public interface IAdminService extends IService<Admin> {
      * @return 包含当前登录用户的所有信息的pojo（实体类）
      */
     Admin getAdminByUsername(String username);
+
+    /**
+     * 根据用户id获取该用户所具有的角色
+     * @param adminId 用户Id
+     * @return 该用户所具有的所有角色实体类列表
+     */
+    List<Role> getRoleListByAdminId(Integer adminId);
 }

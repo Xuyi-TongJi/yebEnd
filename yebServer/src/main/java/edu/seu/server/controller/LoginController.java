@@ -1,7 +1,7 @@
 package edu.seu.server.controller;
 
-import edu.seu.server.dto.AdminLogin;
-import edu.seu.server.pojo.ResponseBean;
+import edu.seu.server.common.dto.AdminLogin;
+import edu.seu.server.common.lang.ResponseBean;
 import edu.seu.server.util.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,8 @@ public class LoginController {
     private final JwtTokenUtil jwtTokenUtil;
 
     public LoginController(UserDetailsService userDetailsService,
-                            PasswordEncoder passwordEncoder, JwtTokenUtil jwtTokenUtil) {
+                           PasswordEncoder passwordEncoder,
+                           JwtTokenUtil jwtTokenUtil) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtil = jwtTokenUtil;

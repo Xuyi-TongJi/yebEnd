@@ -1,20 +1,20 @@
 package edu.seu.server.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.util.List;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * <p>
- * 
+ *  菜单实体类
  * </p>
  *
  * @author xuyitjuseu
@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_menu")
-@ApiModel(value="Menu对象", description="")
+@ApiModel(value="Menu对象")
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,4 +66,11 @@ public class Menu implements Serializable {
     @ApiModelProperty(value = "子菜单")
     @TableField(exist = false)
     private List<Menu> children;
+
+    /**
+     * 有访问这个菜单的权限的角色
+     */
+    @ApiModelProperty(value = "角色列表")
+    @TableField(exist = false)
+    private List<Role> roles;
 }

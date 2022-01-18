@@ -2,6 +2,7 @@ package edu.seu.server;
 
 import edu.seu.server.config.swagger.Swagger2Config;
 import edu.seu.server.pojo.Admin;
+import edu.seu.server.pojo.Role;
 import edu.seu.server.service.IAdminService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 @SpringBootTest(classes = YebServerApplication.class)
 @RunWith(value = SpringRunner.class)
@@ -29,5 +32,13 @@ public class YebTest {
     @Test
     public void test02() {
         System.out.println(swagger2Config.getContactAddress()+ "/doc.html");
+    }
+
+    @Test
+    public void test03() {
+        List<Role> roleListByAdminId = adminService.getRoleListByAdminId(2);
+        for (Role role: roleListByAdminId) {
+            System.out.println(role);
+        }
     }
 }

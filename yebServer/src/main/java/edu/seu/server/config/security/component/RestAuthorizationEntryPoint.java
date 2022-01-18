@@ -1,7 +1,7 @@
-package edu.seu.server.config.security;
+package edu.seu.server.config.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.seu.server.pojo.ResponseBean;
+import edu.seu.server.common.lang.ResponseBean;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

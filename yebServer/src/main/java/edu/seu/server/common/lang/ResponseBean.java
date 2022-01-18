@@ -1,4 +1,4 @@
-package edu.seu.server.pojo;
+package edu.seu.server.common.lang;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

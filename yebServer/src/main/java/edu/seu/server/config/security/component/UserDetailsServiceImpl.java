@@ -1,5 +1,6 @@
-package edu.seu.server.config.security;
+package edu.seu.server.config.security.component;
 
+import edu.seu.server.pojo.Admin;
 import edu.seu.server.service.IAdminService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return adminService.getAdminByUsername(username);
+        Admin admin = adminService.getAdminByUsername(username);
+        if (null != admin) {
+            admin.setRoleList(adminService.getRoleListByAdminId(admin.getId()));
+            return admin;
+        } else {
+            throw new UsernameNotFoundException("用户名不存在");
+        }
     }
 }

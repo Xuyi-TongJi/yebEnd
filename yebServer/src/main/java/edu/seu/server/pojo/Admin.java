@@ -1,17 +1,21 @@
 package edu.seu.server.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.util.Collection;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -24,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_admin")
-@ApiModel(value="Admin对象", description="")
+@ApiModel(value="Admin对象")
 public class Admin implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -61,12 +65,24 @@ public class Admin implements Serializable, UserDetails {
     private String remark;
 
     /**
+     * 当前用户所具有的角色列表
+     */
+    @ApiModelProperty(value = "角色列表")
+    @TableField(exist = false)
+    private List<Role> roleList;
+
+    /**
      * 获取该UserDetails所具有的权限
+     * <p>采用RBAC方案，根据用户获得用户所具有的角色，而每个角色又有不同的权限</p>
+     * <p>因为该类继承了UserDetails，所以可以在登录成功后通过Authentication::getAuthority()方法获取roleList</p>
      * @return 权限类Collection集合
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roleList.stream()
+                // 使用Function接口将Role实体类映射为Spring Security角色对象
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override

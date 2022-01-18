@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ *  菜单前端控制器
  * </p>
  *
  * @author xuyitjuseu

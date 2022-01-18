@@ -2,7 +2,7 @@ package edu.seu.server.controller;
 
 
 import edu.seu.server.pojo.Admin;
-import edu.seu.server.pojo.ResponseBean;
+import edu.seu.server.common.lang.ResponseBean;
 import edu.seu.server.service.IAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +46,7 @@ public class AdminController {
             Admin admin = adminService.getAdminByUsername(username);
             // 密码不能返回给前端
             admin.setPassword(null);
+            admin.setRoleList(adminService.getRoleListByAdminId(admin.getId()));
             return ResponseBean.success(null, admin);
         }
     }

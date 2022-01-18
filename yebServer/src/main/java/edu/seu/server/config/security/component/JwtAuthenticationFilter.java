@@ -1,4 +1,4 @@
-package edu.seu.server.config.security;
+package edu.seu.server.config.security.component;
 
 import edu.seu.server.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Qualifier;

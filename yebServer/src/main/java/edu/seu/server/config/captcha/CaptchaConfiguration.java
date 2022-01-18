@@ -13,7 +13,7 @@ import java.util.Properties;
  * @author xuyitjuseu
  */
 @Configuration
-public class CaptchaConfig {
+public class CaptchaConfiguration {
 
     @Bean
     public DefaultKaptcha getDefaultKaptcha() {

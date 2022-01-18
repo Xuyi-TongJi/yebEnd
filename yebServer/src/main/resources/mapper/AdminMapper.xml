@@ -15,10 +15,22 @@
         <result column="userFace" property="userFace"/>
         <result column="remark" property="remark"/>
     </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
         , name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
-
+    <select id="getRoleListById" resultType="edu.seu.server.pojo.Role">
+        SELECT r.id,
+               r.name,
+               r.nameZh
+        FROM t_admin AS a,
+             t_admin_role AS ar,
+             t_role AS r
+        WHERE a.id = ar.adminId
+          AND ar.rid = r.id
+          AND a.id = #{adminId}
+        ORDER BY r.id
+    </select>
 </mapper>

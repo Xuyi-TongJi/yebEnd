@@ -1,4 +1,4 @@
-package edu.seu.server.dto;
+package edu.seu.server.common.dto;
 
 
 import io.swagger.annotations.ApiModel;
