@@ -19,7 +19,7 @@ import java.util.Collection;
 public class UrlDecisionManager implements AccessDecisionManager {
 
     /**
-     * 该权限控制器的核心方法，该方法可用于判断用户是否登录，该用户所具有的角色是否有访问该url的权限
+     * 该权限拦截器的核心方法，该方法可用于判断用户是否登录，该用户所具有的角色是否有访问该url的权限
      * @param authentication Spring Security权限对象，一旦用户登录，该权限对象可用于获得该用户所具有的角色，用户没有登录，则该类可以
      *                       转为(instance of)AnonymousAuthenticationToken
      * @param object 该业务逻辑无需用到此对象

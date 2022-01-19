@@ -1,7 +1,8 @@
 package edu.seu.server.mapper;
 
-import edu.seu.server.pojo.Joblevel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import edu.seu.server.pojo.JobLevel;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface JoblevelMapper extends BaseMapper<Joblevel> {
+@Mapper
+public interface JobLevelMapper extends BaseMapper<JobLevel> {
 
 }

@@ -1,7 +1,7 @@
-package edu.seu.server.controller;
+package edu.seu.server.controller.login;
 
-import edu.seu.server.common.dto.AdminLogin;
 import edu.seu.server.common.lang.ResponseBean;
+import edu.seu.server.common.vo.AdminVo;
 import edu.seu.server.util.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +46,7 @@ public class LoginController {
      */
     @ApiOperation(value = "登录之后返回Token")
     @PostMapping("/login")
-    public ResponseBean login(@RequestBody AdminLogin adminLogin, HttpServletRequest request) {
+    public ResponseBean login(@RequestBody AdminVo adminLogin, HttpServletRequest request) {
         // 校验验证码
         String codeText = (String) request.getSession().getAttribute("captcha");
         if (codeText == null || !codeText.equals(adminLogin.getCode())) {

@@ -1,7 +1,7 @@
 package edu.seu.server.service;
 
-import edu.seu.server.pojo.Joblevel;
 import com.baomidou.mybatisplus.extension.service.IService;
+import edu.seu.server.pojo.JobLevel;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IJoblevelService extends IService<Joblevel> {
+public interface IJobLevelService extends IService<JobLevel> {
 
 }

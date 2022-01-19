@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ *  职称等级实体类
  * </p>
  *
  * @author xuyitjuseu
@@ -20,9 +22,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("t_joblevel")
-@ApiModel(value="Joblevel对象", description="")
-public class Joblevel implements Serializable {
+@TableName("t_jobLevel")
+@ApiModel(value="JobLevel对象")
+public class JobLevel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,10 +39,10 @@ public class Joblevel implements Serializable {
     private String titleLevel;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createDate;
 
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
-
 
 }

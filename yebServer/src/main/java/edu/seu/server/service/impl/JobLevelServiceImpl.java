@@ -1,9 +1,9 @@
 package edu.seu.server.service.impl;
 
-import edu.seu.server.pojo.Joblevel;
-import edu.seu.server.mapper.JoblevelMapper;
-import edu.seu.server.service.IJoblevelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.seu.server.mapper.JobLevelMapper;
+import edu.seu.server.pojo.JobLevel;
+import edu.seu.server.service.IJobLevelService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-01-14
  */
 @Service
-public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> implements IJoblevelService {
+public class JobLevelServiceImpl extends ServiceImpl<JobLevelMapper, JobLevel> implements IJobLevelService {
 
 }

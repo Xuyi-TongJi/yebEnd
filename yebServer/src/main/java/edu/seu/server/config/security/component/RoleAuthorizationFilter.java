@@ -43,8 +43,8 @@ public class RoleAuthorizationFilter implements FilterInvocationSecurityMetadata
             // 如果匹配，则可以确定该url需要进行访问的是该Menu
             if (antPathMatcher.match(menu.getUrl(), requestUrl)) {
                 // 获得与url匹配的menu所具有的权限对象
-                String[] strings = (String[])menu.getRoles().stream()
-                        .map((Function<Role, Object>) Role::getName).toArray(Object[]::new);
+                String[] strings = menu.getRoles().stream()
+                        .map((Function<Role, Object>) Role::getName).toArray(String[]::new);
                 // createList方法：创建了一个集合，该集合为访问该url所需要的所有角色的集合，在UrlDecisionManager拦截器中用于判断登录用
                 // 户是否具有该角色
                 return SecurityConfig.createList(strings);
