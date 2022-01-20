@@ -4,6 +4,8 @@ import edu.seu.server.util.LevelTitleUtil;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Arrays;
+
 public class CommonTest {
     @Test
     public void test01() {
@@ -19,4 +21,5 @@ public class CommonTest {
         }
         System.out.println(LevelTitleUtil.levelTitleIncluded("副教授"));
     }
+
 }

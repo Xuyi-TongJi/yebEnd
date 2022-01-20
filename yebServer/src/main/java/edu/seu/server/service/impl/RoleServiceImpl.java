@@ -1,11 +1,10 @@
 package edu.seu.server.service.impl;
 
-import edu.seu.server.pojo.Role;
-import edu.seu.server.mapper.RoleMapper;
-import edu.seu.server.service.IRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.seu.server.mapper.RoleMapper;
+import edu.seu.server.pojo.Role;
+import edu.seu.server.service.IRoleService;
 import edu.seu.server.util.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

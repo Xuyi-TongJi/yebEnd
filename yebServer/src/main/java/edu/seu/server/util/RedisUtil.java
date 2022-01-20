@@ -10,5 +10,7 @@ public class RedisUtil {
     public static final String MENU_ID_LIST = "MidIdList";
     public static final String ROLE_ID_LIST = "RoleIdList";
     public static final String ROLE_LIST = "RoleList";
+    public static final String MENU_WITH_ROLE = "MenuListWithRole";
+    public static final String DEPARTMENT_LIST = "DepartmentList";
 
 }

@@ -21,4 +21,9 @@ public interface IMenuRoleService extends IService<MenuRole> {
      * @return 更新是否成功的公共返回对象
      */
     ResponseBean updateMenuRole(Integer rid, Integer ... mIds);
+
+    /**
+     * 在增删查改操作后清空缓存层中的缓存
+     */
+    void cleanupCache();
 }

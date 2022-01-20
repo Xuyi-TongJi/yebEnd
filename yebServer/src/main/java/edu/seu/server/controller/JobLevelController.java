@@ -44,7 +44,7 @@ public class JobLevelController {
     }
 
     @ApiOperation("增加职称")
-    @PutMapping("/")
+    @PostMapping("/")
     public ResponseBean addJobLevel(@RequestBody JobLevelVo jobLevelVo) {
         if (LevelTitleUtil.levelTitleIncluded(jobLevelVo.getTitleLevel())) {
             JobLevel jobLevel = mapper.map(jobLevelVo, JobLevel.class);
@@ -78,7 +78,7 @@ public class JobLevelController {
     }
 
     @ApiOperation("更改职称")
-    @PostMapping("/")
+    @PutMapping("/")
     public ResponseBean updateJobLevel(@RequestBody JobLevelVo jobLevelVo) {
         if (LevelTitleUtil.levelTitleIncluded(jobLevelVo.getTitleLevel())) {
             JobLevel jobLevel = mapper.map(jobLevelVo, JobLevel.class);

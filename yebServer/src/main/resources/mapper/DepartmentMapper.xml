@@ -11,10 +11,29 @@
         <result column="enabled" property="enabled" />
         <result column="isParent" property="isParent" />
     </resultMap>
+    <resultMap id="DepartmentList" type="edu.seu.server.pojo.Department" extends="BaseResultMap">
+        <collection property="children" ofType="edu.seu.server.pojo.Department"
+                    select="edu.seu.server.mapper.DepartmentMapper.getDepartmentList" column="id">
+            <!-- 递归sql, 上一次查得的id用作下一次查询的参数，即parentId -->
+        </collection>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, parentId, depPath, enabled, isParent
     </sql>
 
+    <!-- 递归查询所有列表，由于列表级数不确定，不宜使用自关联查询 -->
+    <select id="getDepartmentList" resultType="edu.seu.server.pojo.Department">
+        select
+            <include refid="Base_Column_List"/>
+        from t_department
+        where parentId = #{parentId}
+    </select>
+
+    <!-- 添加一个新部门，使用存储过程实现 -->
+    <select id="addDepartment" statementType="CALLABLE" resultType="edu.seu.server.pojo.Department">
+        call addDep(#{name,mode=IN,jdbcType=VARCHAR}, #{parentId,mode=IN,jdbcType=INTEGER},
+            #{enabled,mode=IN,jdbcType=BOOLEAN}, #{result,mode=OUT,jdbcType=INTEGER}, #{id,mode=OUT,jdbcType=INTEGER})
+    </select>
 </mapper>

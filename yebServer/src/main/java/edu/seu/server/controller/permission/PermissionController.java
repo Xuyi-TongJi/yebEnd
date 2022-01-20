@@ -2,7 +2,7 @@ package edu.seu.server.controller.permission;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.seu.server.common.lang.ResponseBean;
-import edu.seu.server.pojo.Menu;
+import edu.seu.server.common.pojo.MenuPojo;
 import edu.seu.server.pojo.MenuRole;
 import edu.seu.server.pojo.Role;
 import edu.seu.server.service.IMenuRoleService;
@@ -44,7 +44,7 @@ public class PermissionController {
     }
 
     @ApiOperation("添加角色")
-    @PutMapping("/")
+    @PostMapping("/")
     public ResponseBean addRole(@RequestBody Role role) {
         String prefix = "ROLE_";
         if (!role.getName().startsWith(prefix)) {
@@ -71,7 +71,7 @@ public class PermissionController {
     }
 
     @ApiOperation("更新角色")
-    @PostMapping("/")
+    @PutMapping("/")
     public ResponseBean updateRole(@RequestBody Role role) {
         String prefix = "ROLE_";
         if (!role.getName().startsWith(prefix)) {
@@ -99,7 +99,7 @@ public class PermissionController {
 
     @ApiOperation("查询所有菜单及其子菜单")
     @GetMapping("/menus")
-    public List<Menu> getAllMenus() {
+    public List<MenuPojo> getAllMenus() {
         return menuService.getAllMenus();
     }
 
@@ -113,6 +113,7 @@ public class PermissionController {
     @ApiOperation("根据角色rid更新角色菜单")
     @PutMapping("/{rid}")
     public ResponseBean updateMenuRole(@PathVariable Integer rid, @RequestBody Integer... mIds) {
-          return menuRoleService.updateMenuRole(rid, mIds);
+        menuRoleService.cleanupCache();
+        return menuRoleService.updateMenuRole(rid, mIds);
     }
 }

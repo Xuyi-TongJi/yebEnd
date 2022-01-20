@@ -37,13 +37,13 @@
             <result column="rnameZh" property="nameZh"/>
         </collection>
     </resultMap>
-    <resultMap id="AllMenus" type="edu.seu.server.pojo.Menu">
+    <resultMap id="AllMenus" type="edu.seu.server.common.pojo.MenuPojo">
         <id column="id1" property="id"/>
         <result column="name1" property="name"/>
-        <collection property="children" ofType="edu.seu.server.pojo.Menu">
+        <collection property="children" ofType="edu.seu.server.common.pojo.MenuPojo">
             <id column="id2" property="id"/>
             <result column="name2" property="name"/>
-            <collection property="children" ofType="edu.seu.server.pojo.Menu">
+            <collection property="children" ofType="edu.seu.server.common.pojo.MenuPojo">
                 <id column="id3" property="id"/>
                 <result column="name3" property="name"/>
             </collection>
