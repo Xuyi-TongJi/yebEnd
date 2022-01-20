@@ -1,5 +1,6 @@
 package edu.seu.server.exception;
 
+import edu.seu.server.common.excpetion.CustomRuntimeException;
 import edu.seu.server.common.lang.ResponseBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,5 +46,12 @@ public class GlobalExceptionHandler {
     public ResponseBean handle(UsernameNotFoundException exception) {
         log.error("登录异常:{}", exception.getMessage());
         return ResponseBean.error(400, "无法找到响应用户名！", null);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CustomRuntimeException.class)
+    public ResponseBean handle(CustomRuntimeException exception) {
+        log.error("参数异常:{}", exception.getMessage());
+        return ResponseBean.error(400, exception.getMessage(), null);
     }
 }

@@ -27,4 +27,16 @@ public interface IMenuService extends IService<Menu> {
      *         可以通过Menu::getRoles获得
      */
     List<Menu> getMenusWithRole();
+
+    /**
+     * 获取菜单表中所有菜单及其子菜单，需要进行自关联
+     * @return 一级菜单列表，范型为Menu实体类，其中children属性为该Menu的子菜单
+     */
+    List<Menu> getAllMenus();
+
+    /**
+     * 获取所有菜单的id列表，该菜单列表中的id只包含最后一级菜单，可用于对应于角色的权限管理
+     * @return 菜单id列表
+     */
+    List<Integer> getMidList();
 }

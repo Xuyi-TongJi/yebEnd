@@ -9,9 +9,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
- * 
+ *  角色实体类
  * </p>
  *
  * @author xuyitjuseu
@@ -20,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_role")
-@ApiModel(value="Role对象", description="")
+@ApiModel(value="Role对象")
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,10 +32,11 @@ public class Role implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "名称")
+    @NotBlank(message = "名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "角色名称")
+    @NotBlank(message = "角色名称不能为空")
     private String nameZh;
-
 
 }

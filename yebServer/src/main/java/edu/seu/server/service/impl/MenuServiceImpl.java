@@ -1,10 +1,11 @@
 package edu.seu.server.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.seu.server.mapper.MenuMapper;
 import edu.seu.server.pojo.Admin;
 import edu.seu.server.pojo.Menu;
-import edu.seu.server.mapper.MenuMapper;
 import edu.seu.server.service.IMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.seu.server.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -42,10 +45,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
      */
     @Override
     public List<Menu> getMenusByAdminId() {
+        String keyNamePrefix = RedisUtil.MENU_LIST_ADMIN_PREFIX;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer adminId = ((Admin) authentication.getPrincipal()).getId();
         List<Menu> menuList
-                = (List<Menu>) redisTemplate.opsForValue().get("menu_" + adminId);
+                = (List<Menu>) redisTemplate.opsForValue().get(keyNamePrefix + adminId);
         if (CollectionUtils.isEmpty(menuList)) {
             menuList = menuMapper.getMenusByAdminId(adminId);
             redisTemplate.opsForValue().set("menu_" + adminId, menuList );
@@ -56,5 +60,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public List<Menu> getMenusWithRole() {
         return menuMapper.getMenusWithRole();
+    }
+
+    @Override
+    public List<Menu> getAllMenus() {
+        return menuMapper.getAllMenus();
+    }
+
+    @Override
+    public List<Integer> getMidList() {
+        String keyName = RedisUtil.MENU_ID_LIST;
+        List<Integer> midList =
+                (List<Integer>) redisTemplate.opsForValue().get(keyName);
+        if (CollectionUtils.isEmpty(midList)) {
+            midList = list().stream().filter(menu -> menu.getParentId() != null && menu.getParentId() != 1)
+                    .map(Menu::getId).collect(Collectors.toList());
+            redisTemplate.opsForValue().set(keyName, midList);
+        }
+        return midList;
     }
 }
