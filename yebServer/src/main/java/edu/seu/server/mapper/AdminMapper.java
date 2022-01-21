@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ *  管理员Mapper接口
  * </p>
  *
  * @author xuyitjuseu
@@ -26,4 +26,13 @@ public interface AdminMapper extends BaseMapper<Admin> {
      * @return 包含该用户所具有的所有角色实体类的列表
      */
     List<Role> getRoleListById(Integer adminId);
+
+    /**
+     * 根据关键词对Admin进行模糊查询，返回所有结果，并查询它们所具有的角色
+     * <p>不查询当前登录的用户</p>
+     * @param keywords 关键词
+     * @param currentId 当前登录的用户id
+     * @return Admin实体类列表，其中roleList属性为该Admin具有的角色列表
+     */
+    List<Admin> getAdminListByKeywords(String keywords, Integer currentId);
 }

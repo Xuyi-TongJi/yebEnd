@@ -15,11 +15,17 @@
         <result column="userFace" property="userFace"/>
         <result column="remark" property="remark"/>
     </resultMap>
+    <resultMap id="AdminListWithRole" type="edu.seu.server.pojo.Admin" extends="BaseResultMap">
+        <collection property="roleList" ofType="edu.seu.server.pojo.Role">
+            <id column="rid" property="id"/>
+            <result column="rName" property="name"/>
+            <result column="rNameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , name, phone, telephone, address, enabled, username, password, userFace, remark
+        id, name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
     <select id="getRoleListById" resultType="edu.seu.server.pojo.Role">
         SELECT r.id,
@@ -32,5 +38,23 @@
           AND ar.rid = r.id
           AND a.id = #{adminId}
         ORDER BY r.id
+    </select>
+    <!-- 根据关键词查询Admin -->
+    <select id="getAdminListByKeywords" resultMap="AdminListWithRole">
+        select a.*,
+               r.id     as rid,
+               r.name   as rName,
+               r.nameZh as rNameZh
+        from t_admin AS a,
+             t_admin_role AS ar,
+             t_role AS r
+        where a.id = ar.adminId
+          and ar.rid = r.id
+          and a.id != #{currentId}
+        <if test="null!=keywords and ''!=keywords">
+            and a.name like concat('%'
+            , #{keywords}
+            , '%');
+        </if>
     </select>
 </mapper>

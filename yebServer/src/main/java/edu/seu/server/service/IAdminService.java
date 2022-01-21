@@ -29,4 +29,17 @@ public interface IAdminService extends IService<Admin> {
      * @return 该用户所具有的所有角色实体类列表
      */
     List<Role> getRoleListByAdminId(Integer adminId);
+
+    /**
+     * 根据关键词对Admin进行模糊查询，不能查询当前登录的用户
+     * @param keywords 模糊查询关键词
+     * @return 查询得到的Admin实体类列表，其children属性为该Admin所具有的角色列表
+     */
+    List<Admin> getAdminListByKeywords(String keywords);
+
+    /**
+     * 清空缓存
+     */
+    default void cleanUpCache() {
+    }
 }

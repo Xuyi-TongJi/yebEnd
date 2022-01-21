@@ -1,7 +1,9 @@
 package edu.seu.server;
 
 import edu.seu.server.config.swagger.Swagger2Config;
+import edu.seu.server.mapper.DepartmentMapper;
 import edu.seu.server.pojo.Admin;
+import edu.seu.server.pojo.Department;
 import edu.seu.server.pojo.Role;
 import edu.seu.server.service.IAdminService;
 import edu.seu.server.service.IMenuService;
@@ -36,6 +38,9 @@ public class YebTest {
 
     @Autowired
     IMenuService menuService;
+
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     @Test
     public void test01() {
@@ -80,5 +85,17 @@ public class YebTest {
              midList) {
             System.out.print(i + " ");
         }
+    }
+
+    @Test
+    public void test07() {
+        Department department = new Department();
+        department.setResult(-1);
+        department.setParentId(-1);
+        department.setEnabled(true);
+        department.setId(-1);
+        department.setName("测试部门");
+        departmentMapper.addDepartment(department);
+        System.out.println(department.getResult());
     }
 }

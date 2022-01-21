@@ -1,4 +1,4 @@
-package edu.seu.server.controller;
+package edu.seu.server.controller.menu;
 
 
 import edu.seu.server.pojo.Menu;

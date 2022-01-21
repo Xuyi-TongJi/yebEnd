@@ -1,9 +1,9 @@
 package edu.seu.server.service.impl;
 
-import edu.seu.server.pojo.Department;
-import edu.seu.server.mapper.DepartmentMapper;
-import edu.seu.server.service.IDepartmentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.seu.server.mapper.DepartmentMapper;
+import edu.seu.server.pojo.Department;
+import edu.seu.server.service.IDepartmentService;
 import edu.seu.server.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -40,5 +40,29 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             redisTemplate.opsForValue().set(keyName, departmentList);
         }
         return departmentList;
+    }
+
+    @Override
+    public Department addDepartment(Department department) {
+        if (null == department.getParentId()) {
+            department.setParentId(-1);
+        }
+        department.setEnabled(true);
+        department.setIsParent(false);
+        departmentMapper.addDepartment(department);
+        return department;
+    }
+
+    @Override
+    public Department deleteDepartment(Integer id) {
+        Department department = new Department();
+        department.setId(id);
+        departmentMapper.deleteDepartment(department);
+        return department;
+    }
+
+    @Override
+    public void cleanUpCache() {
+        redisTemplate.delete(RedisUtil.DEPARTMENT_LIST);
     }
 }

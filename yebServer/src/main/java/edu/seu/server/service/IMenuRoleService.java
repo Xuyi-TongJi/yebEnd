@@ -25,5 +25,5 @@ public interface IMenuRoleService extends IService<MenuRole> {
     /**
      * 在增删查改操作后清空缓存层中的缓存
      */
-    void cleanupCache();
+    default void cleanupCache(){}
 }

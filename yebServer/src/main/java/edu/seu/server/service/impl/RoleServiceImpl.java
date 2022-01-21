@@ -41,12 +41,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
     @Override
-    public void cleanUpCache() {
-        redisTemplate.delete(RedisUtil.ROLE_LIST);
-        redisTemplate.delete(RedisUtil.ROLE_ID_LIST);
-    }
-
-    @Override
     public List<Integer> getRidList() {
         String keyName = RedisUtil.ROLE_ID_LIST;
         List<Integer> ridList = (List<Integer>) redisTemplate.opsForValue().get(keyName);
@@ -55,5 +49,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             redisTemplate.opsForValue().set(keyName, ridList);
         }
         return ridList;
+    }
+
+    @Override
+    public void cleanUpCache() {
+        redisTemplate.delete(RedisUtil.ROLE_LIST);
+        redisTemplate.delete(RedisUtil.ROLE_ID_LIST);
     }
 }

@@ -1,10 +1,10 @@
 package edu.seu.server;
 
+import edu.seu.server.mapper.DepartmentMapper;
+import edu.seu.server.pojo.Department;
 import edu.seu.server.util.LevelTitleUtil;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Arrays;
 
 public class CommonTest {
     @Test

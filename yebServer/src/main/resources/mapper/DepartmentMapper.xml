@@ -24,7 +24,7 @@
     </sql>
 
     <!-- 递归查询所有列表，由于列表级数不确定，不宜使用自关联查询 -->
-    <select id="getDepartmentList" resultType="edu.seu.server.pojo.Department">
+    <select id="getDepartmentList" resultMap="DepartmentList">
         select
             <include refid="Base_Column_List"/>
         from t_department
@@ -32,8 +32,14 @@
     </select>
 
     <!-- 添加一个新部门，使用存储过程实现 -->
-    <select id="addDepartment" statementType="CALLABLE" resultType="edu.seu.server.pojo.Department">
-        call addDep(#{name,mode=IN,jdbcType=VARCHAR}, #{parentId,mode=IN,jdbcType=INTEGER},
-            #{enabled,mode=IN,jdbcType=BOOLEAN}, #{result,mode=OUT,jdbcType=INTEGER}, #{id,mode=OUT,jdbcType=INTEGER})
+    <select id="addDepartment" statementType="CALLABLE" parameterType="edu.seu.server.pojo.Department">
+        {call addDep(#{name,mode=IN,jdbcType=VARCHAR}, #{parentId,mode=IN,jdbcType=INTEGER},
+                     #{enabled,mode=IN,jdbcType=BOOLEAN}, #{result,mode=OUT,jdbcType=INTEGER},
+                     #{id,mode=OUT,jdbcType=INTEGER})}
+    </select>
+
+    <!-- 删除一个部门，使用存储过程实现 -->
+    <select id="deleteDepartment" statementType="CALLABLE" parameterType="edu.seu.server.pojo.Department">
+        {call deleteDep(#{id,mode=IN,jdbcType=INTEGER}, #{result,mode=OUT,jdbcType=INTEGER})}
     </select>
 </mapper>

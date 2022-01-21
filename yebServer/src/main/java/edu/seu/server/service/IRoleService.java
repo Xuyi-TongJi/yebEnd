@@ -22,13 +22,13 @@ public interface IRoleService extends IService<Role> {
     List<Role> getRoleList();
 
     /**
-     * 清空缓冲层数据
-     */
-    void cleanUpCache();
-
-    /**
      * 获得角色id列表
      * @return 角色id列表
      */
     List<Integer> getRidList();
+
+    /**
+     * 清空缓冲层数据
+     */
+    default void cleanUpCache(){}
 }
