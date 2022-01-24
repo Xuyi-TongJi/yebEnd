@@ -1,14 +1,16 @@
 package edu.seu.server;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import edu.seu.server.common.vo.AdminUpdateVo;
 import edu.seu.server.config.swagger.Swagger2Config;
 import edu.seu.server.mapper.DepartmentMapper;
-import edu.seu.server.pojo.Admin;
-import edu.seu.server.pojo.Department;
-import edu.seu.server.pojo.Role;
+import edu.seu.server.mapper.EmployeeMapper;
+import edu.seu.server.pojo.*;
 import edu.seu.server.service.IAdminService;
 import edu.seu.server.service.IMenuService;
 import edu.seu.server.service.IRoleService;
 import edu.seu.server.util.RedisUtil;
+import org.dozer.Mapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,9 @@ import java.util.List;
 @SpringBootTest(classes = YebServerApplication.class)
 @RunWith(value = SpringRunner.class)
 public class YebTest {
+
+    @Autowired
+    Mapper mapper;
 
     @Autowired
     IAdminService adminService;
@@ -41,6 +46,10 @@ public class YebTest {
 
     @Autowired
     DepartmentMapper departmentMapper;
+
+    @Autowired
+    EmployeeMapper employeeMapper;
+
 
     @Test
     public void test01() {
@@ -97,5 +106,29 @@ public class YebTest {
         department.setName("测试部门");
         departmentMapper.addDepartment(department);
         System.out.println(department.getResult());
+    }
+
+    @Test
+    public void test08() {
+        AdminUpdateVo admin = new AdminUpdateVo();
+        admin.setId(2);
+        admin.setEnabled(false);
+        Admin admin1 = mapper.map(admin, Admin.class);
+        admin1.setEnabled(admin.getEnabled());
+        adminService.updateById(admin1);
+    }
+
+    @Test
+    public void test09() {
+        List<Menu> ids = menuService.list(new QueryWrapper<Menu>().select("id"));
+        for (Menu menu : ids) {
+            System.out.println(menu);
+        }
+    }
+
+    @Test
+    public void test10() {
+        Employee em = employeeMapper.selectOne(new QueryWrapper<Employee>().eq("id", "1"));
+        System.out.println(em);
     }
 }

@@ -1,8 +1,7 @@
 package edu.seu.server.service;
 
-import com.google.common.io.ByteProcessor;
-import edu.seu.server.pojo.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import edu.seu.server.pojo.Department;
 
 import java.util.List;
 
@@ -40,6 +39,4 @@ public interface IDepartmentService extends IService<Department> {
      */
     default void cleanUpCache() {
     }
-
-
 }

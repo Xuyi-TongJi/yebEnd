@@ -10,11 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +48,7 @@ public class LoginController {
      */
     @ApiOperation(value = "登录之后返回Token")
     @PostMapping("/login")
-    public ResponseBean login(@RequestBody AdminVo adminLogin, HttpServletRequest request) {
+    public ResponseBean login(@RequestBody @Validated AdminVo adminLogin, HttpServletRequest request) {
         // 校验验证码
         String codeText = (String) request.getSession().getAttribute("captcha");
         if (codeText == null || !codeText.equals(adminLogin.getCode())) {

@@ -52,7 +52,6 @@ public class PermissionController {
             role.setName(prefix + name);
         }
         if (roleService.save(role)) {
-            roleService.cleanUpCache();
             return ResponseBean.success("添加成功！", null);
         } else {
             return ResponseBean.error(500, "添加失败", null);
@@ -113,7 +112,6 @@ public class PermissionController {
     @ApiOperation("根据角色rid更新角色菜单")
     @PutMapping("/{rid}")
     public ResponseBean updateMenuRole(@PathVariable Integer rid, @RequestBody Integer... mIds) {
-        menuRoleService.cleanupCache();
         return menuRoleService.updateMenuRole(rid, mIds);
     }
 }

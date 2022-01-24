@@ -37,6 +37,15 @@ public interface IAdminService extends IService<Admin> {
      */
     List<Admin> getAdminListByKeywords(String keywords);
 
+
+    /**
+     * 更新操作员所具有的角色
+     * @param aid 操作员ID
+     * @param rIds 角色id，可以同时更新多个
+     * @return 受影响的行数，用以判断是否更新成功
+     */
+    Integer updateAdminRole(Integer aid, Integer ... rIds);
+
     /**
      * 清空缓存
      */

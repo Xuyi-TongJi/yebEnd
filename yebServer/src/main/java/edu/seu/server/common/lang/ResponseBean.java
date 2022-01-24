@@ -1,5 +1,7 @@
 package edu.seu.server.common.lang;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Api("公共返回对象")
 public class ResponseBean {
+    @ApiModelProperty("状态码")
     private Integer status;
+    @ApiModelProperty("响应信息")
     private String message;
+    @ApiModelProperty("响应json格式obj")
     private Object obj;
 
     /**

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ *  部门服务实现类
  * </p>
  *
  * @author xuyitjuseu
@@ -50,6 +50,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         department.setEnabled(true);
         department.setIsParent(false);
         departmentMapper.addDepartment(department);
+        if (department.getResult() > 0) {
+            cleanUpCache();
+        }
         return department;
     }
 
@@ -58,6 +61,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         Department department = new Department();
         department.setId(id);
         departmentMapper.deleteDepartment(department);
+        if (department.getResult() > 0) {
+            cleanUpCache();
+        }
         return department;
     }
 

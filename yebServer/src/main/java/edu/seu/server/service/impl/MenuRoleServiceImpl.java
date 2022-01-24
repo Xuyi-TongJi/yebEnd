@@ -58,11 +58,13 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
                 // 对mIds进行去重
                 mIds = FunctionUtil.distinct(mIds);
                 if (menuRoleMapper.insertBatch(rid, mIds) == mIds.length) {
+                    cleanupCache();
                     return ResponseBean.success("更新成功!", null);
                 }
                 return ResponseBean.error(500, "更新失败!", null);
             }
             // 没有mId参数
+            cleanupCache();
             return ResponseBean.success("更新成功!", null);
         }
         return ResponseBean.error(500, "更新失败!", null);
