@@ -1,0 +1,32 @@
+server:
+  port: 8082
+spring:
+  mail:
+    host: stmp.sina.cn
+    protocol: smtp
+    default-encoding: UTF-8
+    password: ae10ad4f1c1bbaeb
+    username: xuyi170272@sina.cn
+    port: 25
+  rabbitmq:
+    username: admin
+    password: Woshij8dan!
+    host: 127.0.0.1
+    port: 5672
+    listener:
+      simple:
+        # 开启（消费端）手动确认
+        acknowledge-mode: manual
+
+  redis:
+    timeout: 10000ms
+    host: 127.0.0.1 # 测试环境
+    port: 6379
+    database: 0
+    jedis:
+      pool:
+        max-active: 1024
+        max-wait: 10000ms
+        max-idle: 200
+        min-idle: 5
+

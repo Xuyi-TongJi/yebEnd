@@ -6,7 +6,7 @@ import edu.seu.server.common.lang.ResponseBean;
 import edu.seu.server.common.vo.JobLevelVo;
 import edu.seu.server.pojo.JobLevel;
 import edu.seu.server.service.IJobLevelService;
-import edu.seu.server.util.LevelTitleUtil;
+import edu.seu.server.util.enumUtil.LevelTitleUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.dozer.Mapper;

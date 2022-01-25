@@ -1,5 +1,7 @@
 package edu.seu.server.pojo;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,8 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +26,9 @@ import java.time.LocalDate;
  * @since 2022-01-14
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@RequiredArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false ,of = "name")
 @TableName("t_employee")
 @ApiModel(value="Employee对象", description="")
 public class Employee implements Serializable {
@@ -38,23 +41,29 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(value = "员工姓名")
     @NotBlank(message = "姓名不能为空")
+    @Excel(name = "员工姓名")
+    @NonNull
     private String name;
 
     @ApiModelProperty(value = "性别")
     @NotBlank(message = "性别不能为空")
+    @Excel(name = "性别")
     private String gender;
 
     @ApiModelProperty(value = "出生日期")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @NotNull(message = "出生日期不能为空")
+    @Excel(name = "出生日期", width = 20, format = "yyyy-MM-dd")
     private LocalDate birthday;
 
     @ApiModelProperty(value = "身份证号")
     @NotBlank(message = "身份证号不能为空")
+    @Excel(name = "身份证号", width = 30)
     private String idCard;
 
     @ApiModelProperty(value = "婚姻状况")
     @NotBlank(message = "婚姻不能为空")
+    @Excel(name = "婚姻状况")
     private String wedlock;
 
     @ApiModelProperty(value = "民族")
@@ -63,6 +72,7 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(value = "籍贯")
     @NotBlank(message = "籍贯不能为空")
+    @Excel(name = "籍贯")
     private String nativePlace;
 
     @ApiModelProperty(value = "政治面貌")
@@ -71,14 +81,17 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(value = "邮箱")
     @Email(message = "邮箱格式不正确")
+    @Excel(name = "邮箱")
     private String email;
 
     @ApiModelProperty(value = "电话号码")
     @NotBlank(message = "电话号码不能为空")
+    @Excel(name = "电话号码")
     private String phone;
 
     @ApiModelProperty(value = "联系地址")
     @NotBlank(message = "联系地址不能为空")
+    @Excel(name = "地址")
     private String address;
 
     @ApiModelProperty(value = "所属部门")
@@ -95,18 +108,22 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(value = "聘用形式")
     @NotBlank(message = "聘用形式不能为空")
+    @Excel(name = "聘用形式")
     private String engageForm;
 
     @ApiModelProperty(value = "最高学历")
     @NotBlank(message = "最高学历不能为空")
+    @Excel(name = "最高学历")
     private String tiptopDegree;
 
     @ApiModelProperty(value = "所属专业")
     @NotBlank(message = "所属专业不能为空")
+    @Excel(name = "所属专业")
     private String specialty;
 
     @ApiModelProperty(value = "毕业院校")
     @NotBlank(message = "毕业院校不能为空")
+    @Excel(name = "毕业院校")
     private String school;
 
     @ApiModelProperty(value = "入职日期")
@@ -116,57 +133,71 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(value = "在职状态")
     @NotBlank(message = "在职状态不能为空")
+    @Excel(name = "在职状态")
     private String workState;
 
     @ApiModelProperty(value = "工号")
+    @Excel(name = "工号")
     private String workID;
 
     @ApiModelProperty(value = "合同期限")
+    @Excel(name = "工龄", suffix = "年")
     private Double contractTerm;
 
     @ApiModelProperty(value = "转正日期")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @NotNull(message = "转正日期不能为空")
+    @Excel(name = "转正日期", width = 20, format = "yyyy-MM-dd")
     private LocalDate conversionTime;
 
     @ApiModelProperty(value = "离职日期")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
+    @Excel(name = "离职", width = 20, format = "yyyy-MM-dd")
     private LocalDate notWorkDate;
 
     @ApiModelProperty(value = "合同起始日期")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @NotNull(message = "合同起始日期不能为空")
+    @Excel(name = "合同起始日期", width = 20, format = "yyyy-MM-dd")
     private LocalDate beginContract;
 
     @ApiModelProperty(value = "合同终止日期")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @NotNull(message = "合同终止不能为空")
+    @Excel(name = "合同终止日期", width = 20, format = "yyyy-MM-dd")
     private LocalDate endContract;
 
     @ApiModelProperty(value = "工龄")
+    @Excel(name = "工龄")
     private Integer workAge;
 
     @ApiModelProperty(value = "工资账套ID")
     @NotNull(message = "工资涨套Id不能为空")
+    @Excel(name = "工资帐套ID")
     private Integer salaryId;
 
     @ApiModelProperty(value = "民族")
     @TableField(exist = false)
+    @ExcelEntity(name = "民族")
     private Nation nation;
 
     @ApiModelProperty(value = "政治面貌")
     @TableField(exist = false)
+    @ExcelEntity(name = "政治面貌")
     private PoliticsStatus politicsStatus;
 
     @ApiModelProperty(value = "部门")
     @TableField(exist = false)
+    @ExcelEntity(name = "部门")
     private Department department;
 
     @ApiModelProperty(value = "职称")
     @TableField(exist = false)
+    @ExcelEntity(name = "职称")
     private JobLevel jobLevel;
 
     @ApiModelProperty(value = "职位")
     @TableField(exist = false)
+    @ExcelEntity(name = "职位")
     private Position position;
 }

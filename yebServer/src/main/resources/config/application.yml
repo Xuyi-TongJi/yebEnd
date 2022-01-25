@@ -27,6 +27,21 @@ spring:
         max-wait: 10000ms
         max-idle: 200
         min-idle: 5
+  rabbitmq:
+    username: admin
+    password: Woshij8dan!
+    host: 127.0.0.1
+    port: 5672
+    # 开启消息确认回调
+    publisher-confirm-type: correlated
+    # 开启消息失败回调
+    publisher-returns: true
+
+# 消息队列名称配置
+message-queue:
+  confirm-queue-name: mail.queue
+  confirm-exchange-name: mail.exchange
+  confirm-routing-key-name: mail.welcome
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml

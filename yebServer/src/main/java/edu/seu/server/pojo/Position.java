@@ -1,16 +1,16 @@
 package edu.seu.server.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,7 +21,9 @@ import lombok.EqualsAndHashCode;
  * @since 2022-01-14
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@RequiredArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false ,of = "name")
 @TableName("t_position")
 @ApiModel(value="Position对象")
 public class Position implements Serializable {
@@ -33,6 +35,8 @@ public class Position implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "职位")
+    @Excel(name = "职位")
+    @NonNull
     private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
@@ -41,6 +45,4 @@ public class Position implements Serializable {
 
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
-
-
 }

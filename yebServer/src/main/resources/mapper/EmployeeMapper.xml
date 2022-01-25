@@ -34,7 +34,7 @@
         <result column="workAge" property="workAge"/>
         <result column="salaryId" property="salaryId"/>
     </resultMap>
-    <resultMap id="employeeByPage" type="edu.seu.server.pojo.Employee" extends="BaseResultMap">
+    <resultMap id="employeeList" type="edu.seu.server.pojo.Employee" extends="BaseResultMap">
         <association property="nation" javaType="edu.seu.server.pojo.Nation">
             <id column="nid" property="id"/>
             <result column="nName" property="name"/>
@@ -62,30 +62,32 @@
         id
         , name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge, salaryId
     </sql>
-    <select id="getEmployeeByPage" resultMap="employeeByPage">
+    <sql id="Base_Employee_List_Select">
         select e.*,
-        n.id as nid,
-        n.name as nName,
-        ps.id as psId,
-        ps.name as psName,
-        d.id as did,
-        d.name as dName,
-        j.id as jid,
-        j.name as jName,
-        p.id as pid,
-        p.name as pName
+               n.id    as nid,
+               n.name  as nName,
+               ps.id   as psId,
+               ps.name as psName,
+               d.id    as did,
+               d.name  as dName,
+               j.id    as jid,
+               j.name  as jName,
+               p.id    as pid,
+               p.name  as pName
         from t_employee as e,
-        t_nation as n,
-        t_politics_status as ps,
-        t_department as d,
-        t_joblevel as j,
-        t_position as p
-        where
-        e.nationId = n.id
-        and e.politicId = ps.id
-        and e.departmentId = d.id
-        and e.jobLevelId = j.id
-        and e.posId = p.id
+             t_nation as n,
+             t_politics_status as ps,
+             t_department as d,
+             t_joblevel as j,
+             t_position as p
+        where e.nationId = n.id
+          and e.politicId = ps.id
+          and e.departmentId = d.id
+          and e.jobLevelId = j.id
+          and e.posId = p.id
+    </sql>
+    <select id="getEmployeeByPage" resultMap="employeeList">
+        <include refid="Base_Employee_List_Select"/>
         <if test="null!=employee.name and ''!=employee.name">
             and e.name like concat('%', #{employee.name}, '%')
         </if>
@@ -106,6 +108,13 @@
         </if>
         <if test="2 == beginDateScopes.length and null!=beginDateScopes[0] and null!=beginDateScopes[1]">
             and e.beginDate between #{beginDateScopes[0]} and #{beginDateScopes[1]}
+        </if>
+        order by e.id
+    </select>
+    <select id="getEmployee" resultMap="employeeList">
+        <include refid="Base_Employee_List_Select"/>
+        <if test="null != id">
+            and e.id = #{id}
         </if>
         order by e.id
     </select>

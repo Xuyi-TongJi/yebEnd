@@ -30,7 +30,7 @@ public class CaptchaController {
      * @param request httpServletRequest对象，用以获得Session
      * @param response httpServletResponse对象，用以输出图片
      */
-    @ApiOperation(value = "获取验证码", produces = "jpg")
+    @ApiOperation(value = "获取验证码", produces = "image/jpeg")
     @GetMapping(value = "/captcha")
     public void captcha(HttpServletRequest request, HttpServletResponse response) {
         // response输出image时的配置

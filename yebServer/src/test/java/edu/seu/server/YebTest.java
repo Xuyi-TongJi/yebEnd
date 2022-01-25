@@ -2,6 +2,7 @@ package edu.seu.server;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.seu.server.common.vo.AdminUpdateVo;
+import edu.seu.server.config.messageQueue.MessageQueueProperties;
 import edu.seu.server.config.swagger.Swagger2Config;
 import edu.seu.server.mapper.DepartmentMapper;
 import edu.seu.server.mapper.EmployeeMapper;
@@ -15,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -50,6 +52,11 @@ public class YebTest {
     @Autowired
     EmployeeMapper employeeMapper;
 
+    @Autowired
+    ServerProperties serverProperties;
+
+    @Autowired
+    MessageQueueProperties messageQueueProperties;
 
     @Test
     public void test01() {
@@ -130,5 +137,21 @@ public class YebTest {
     public void test10() {
         Employee em = employeeMapper.selectOne(new QueryWrapper<Employee>().eq("id", "1"));
         System.out.println(em);
+    }
+
+    @Test
+    public void test11() {
+        List<Employee> employee = employeeMapper.getEmployee(1);
+        System.out.println(employee.get(0));
+    }
+
+    @Test
+    public void test12() {
+        System.out.println(serverProperties.getPort());
+    }
+
+    @Test
+    public void test13() {
+        System.out.println(messageQueueProperties.getConfirmQueueName());
     }
 }

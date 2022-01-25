@@ -1,4 +1,4 @@
-package edu.seu.server.util;
+package edu.seu.server.util.enumUtil;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;

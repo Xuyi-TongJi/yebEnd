@@ -5,6 +5,7 @@
     <modules>
         <module>yebServer</module>
         <module>yebGenerator</module>
+        <module>yebMail</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -22,16 +23,6 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-<!--        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>-->
-<!---->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -55,7 +46,19 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>

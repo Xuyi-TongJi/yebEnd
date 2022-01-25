@@ -1,4 +1,4 @@
-package edu.seu.server.util;
+package edu.seu.server.util.enumUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +31,7 @@ public enum WorkStateUtil {
      * @param formName 待校验的合同类型名称
      * @return 是否合法的布尔值
      */
-    public static boolean formNameIncluded(String formName) {
+    public static boolean nameIncluded(String formName) {
         for (WorkStateUtil engageForm:
                 WorkStateUtil.values()) {
             if (formName.equals(engageForm.getWorkStateName())) {

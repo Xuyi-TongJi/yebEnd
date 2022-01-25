@@ -2,8 +2,8 @@ package edu.seu.server;
 
 import edu.seu.server.common.vo.AdminUpdateVo;
 import edu.seu.server.pojo.Admin;
-import edu.seu.server.util.EngageFormUtil;
-import edu.seu.server.util.LevelTitleUtil;
+import edu.seu.server.util.enumUtil.EngageFormUtil;
+import edu.seu.server.util.enumUtil.LevelTitleUtil;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.junit.Test;
