@@ -5,8 +5,8 @@ spring:
     host: stmp.sina.cn
     protocol: smtp
     default-encoding: UTF-8
-    password: ae10ad4f1c1bbaeb
-    username: xuyi170272@sina.cn
+    password: xx
+    username: xx
     port: 25
   rabbitmq:
     username: admin

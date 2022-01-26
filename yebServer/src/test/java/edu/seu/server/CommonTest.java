@@ -65,4 +65,11 @@ public class CommonTest {
     public void test06() {
         Arrays.stream(EngageFormUtil.values()).map(EngageFormUtil::getFormName).forEach(System.out::println);
     }
+
+    @Test
+    public void test07() {
+        Integer a = 1;
+        Integer b = 1;
+        System.out.println(a == b);
+    }
 }

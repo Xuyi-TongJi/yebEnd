@@ -4,7 +4,6 @@ import edu.seu.server.config.security.component.JwtAuthenticationFilter;
 import edu.seu.server.config.security.component.RoleAuthorizationFilter;
 import edu.seu.server.config.security.component.UrlDecisionManager;
 import edu.seu.server.config.security.component.UserDetailsServiceImpl;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -33,28 +31,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AccessDeniedHandler accessDeniedHandler;
     private final RoleAuthorizationFilter roleAuthorizationFilter;
     private final UrlDecisionManager urlDecisionManager;
+    private final PasswordEncoder passwordEncoder;
 
     public SecurityConfiguration(UserDetailsServiceImpl userDetailsService,
-                          JwtAuthenticationFilter jwtAuthenticationFilter,
-                          AuthenticationEntryPoint authenticationEntryPoint,
-                          AccessDeniedHandler accessDeniedHandler,
-                          RoleAuthorizationFilter roleAuthorizationFilter,
-                          UrlDecisionManager urlDecisionManager) {
+                                 JwtAuthenticationFilter jwtAuthenticationFilter,
+                                 AuthenticationEntryPoint authenticationEntryPoint,
+                                 AccessDeniedHandler accessDeniedHandler,
+                                 RoleAuthorizationFilter roleAuthorizationFilter,
+                                 UrlDecisionManager urlDecisionManager,
+                                 PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
         this.roleAuthorizationFilter = roleAuthorizationFilter;
         this.urlDecisionManager = urlDecisionManager;
-    }
-
-    /**
-     * 将密码加密/解码器注入Spring容器中
-     * @return 一个PasswordEncoder实现类的Spring Bean
-     */
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -65,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     /**

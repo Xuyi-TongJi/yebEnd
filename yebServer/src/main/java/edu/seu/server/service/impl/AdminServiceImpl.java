@@ -12,6 +12,7 @@ import edu.seu.server.service.IRoleService;
 import edu.seu.server.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -39,11 +40,14 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     private final IRoleService roleService;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final PasswordEncoder passwordEncoder;
 
     public AdminServiceImpl(IRoleService roleService,
-                            RedisTemplate<String, Object> redisTemplate) {
+                            RedisTemplate<String, Object> redisTemplate,
+                            PasswordEncoder passwordEncoder) {
         this.roleService = roleService;
         this.redisTemplate = redisTemplate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -92,6 +96,23 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return -1;
     }
 
+    @Override
+    public Integer updatePassword(String currentPassword, String newPassword, Integer aid) {
+        Admin admin = adminMapper.selectOne(new QueryWrapper<Admin>().eq("id", aid));
+        if (!passwordEncoder.matches(currentPassword, admin.getPassword())){
+            return -1;
+        } else {
+            admin.setPassword(passwordEncoder.encode(newPassword));
+            int result =  adminMapper.updateById(admin);
+            cleanupCache();
+            return result;
+        }
+    }
+
+    @Override
+    public void cleanupCache() {
+    }
+
     private boolean ridIncluded(Integer ... rIds) {
         List<Integer> ridList = roleService.getRidList();
         for (Integer ridToAdd:
@@ -112,10 +133,5 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             redisTemplate.opsForValue().set(keyName, adminIdList);
         }
         return adminIdList.contains(adminId);
-    }
-
-    @Override
-    public void cleanupCache() {
-        redisTemplate.delete(RedisUtil.ADMIN_ID_LIST);
     }
 }

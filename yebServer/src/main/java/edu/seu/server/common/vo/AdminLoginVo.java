@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 @Accessors(chain = true)
 @ApiModel(value = "AdminVo实体类", description = "用于接受前端传来的用户登录信息")
-public class AdminVo {
+public class AdminLoginVo {
     @ApiModelProperty(value = "用户名", required = true)
     @NotBlank(message = "用户名不可为空")
     private String username;

@@ -1,6 +1,5 @@
 package edu.seu.server.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.pojo.Admin;
 import edu.seu.server.pojo.Role;
 import edu.seu.server.service.cache.ICacheService;
@@ -47,4 +46,12 @@ public interface IAdminService extends ICacheService<Admin> {
      */
     Integer updateAdminRole(Integer aid, Integer ... rIds);
 
+    /**
+     * 更新管理员密码，需要检验当前密码
+     * @param currentPassword 当前密码
+     * @param newPassword 新密码
+     * @param aid 管理员id
+     * @return 如果密码错误直接返回-1, 如果数据库更新失败返回0，返回1则表示更新成功(受影响的行数)
+     */
+    Integer updatePassword(String currentPassword, String newPassword, Integer aid);
 }
