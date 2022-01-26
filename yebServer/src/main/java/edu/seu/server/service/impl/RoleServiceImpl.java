@@ -30,14 +30,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
     @Override
-    public List<Role> getRoleList() {
+    public List<Role> listInCache() {
         String keyName = RedisUtil.ROLE_LIST;
-        List<Role> roleList = (List<Role>) redisTemplate.opsForValue().get(keyName);
-        if (CollectionUtils.isEmpty(roleList)) {
-            roleList = list();
-            redisTemplate.opsForValue().set(keyName, roleList);
-        }
-        return roleList;
+        return listInCache(keyName, redisTemplate);
     }
 
     @Override
@@ -45,15 +40,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         String keyName = RedisUtil.ROLE_ID_LIST;
         List<Integer> ridList = (List<Integer>) redisTemplate.opsForValue().get(keyName);
         if (CollectionUtils.isEmpty(ridList)) {
-            ridList = getRoleList().stream().map(Role::getId).collect(Collectors.toList());
+            ridList = this.list().stream().map(Role::getId).collect(Collectors.toList());
             redisTemplate.opsForValue().set(keyName, ridList);
         }
         return ridList;
     }
 
     @Override
-    public void cleanUpCache() {
+    public void cleanupCache() {
         redisTemplate.delete(RedisUtil.ROLE_LIST);
         redisTemplate.delete(RedisUtil.ROLE_ID_LIST);
     }
+
 }

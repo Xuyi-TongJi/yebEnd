@@ -1,4 +1,4 @@
-package edu.seu.server.controller;
+package edu.seu.server.controller.position;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

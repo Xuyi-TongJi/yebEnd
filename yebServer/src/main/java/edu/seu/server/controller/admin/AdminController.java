@@ -73,7 +73,6 @@ public class AdminController {
         Admin admin = mapper.map(adminUpdateVo, Admin.class);
         admin.setEnabled(adminUpdateVo.getEnabled());
         if (adminService.updateById(admin)) {
-            adminService.cleanUpCache();
             return ResponseBean.success("更新成功！", null);
         } else {
             return ResponseBean.error(500, "更新失败", null);

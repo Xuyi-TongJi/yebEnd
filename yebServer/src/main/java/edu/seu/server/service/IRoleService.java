@@ -1,7 +1,7 @@
 package edu.seu.server.service;
 
 import edu.seu.server.pojo.Role;
-import com.baomidou.mybatisplus.extension.service.IService;
+import edu.seu.server.service.cache.ICacheService;
 
 import java.util.List;
 
@@ -13,22 +13,11 @@ import java.util.List;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IRoleService extends IService<Role> {
-
-    /**
-     * 获得角色列表
-     * @return 角色列表
-     */
-    List<Role> getRoleList();
+public interface IRoleService extends ICacheService<Role> {
 
     /**
      * 获得角色id列表
      * @return 角色id列表
      */
     List<Integer> getRidList();
-
-    /**
-     * 清空缓冲层数据
-     */
-    default void cleanUpCache(){}
 }

@@ -64,3 +64,7 @@ jwt:
   expiration: 6048000
   # JWT令牌开头
   tokenHead: Bearer
+
+#websocket配置
+auth-token:
+  header-name: Auth-Token

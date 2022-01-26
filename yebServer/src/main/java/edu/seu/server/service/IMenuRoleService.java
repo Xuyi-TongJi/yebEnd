@@ -2,7 +2,7 @@ package edu.seu.server.service;
 
 import edu.seu.server.common.lang.ResponseBean;
 import edu.seu.server.pojo.MenuRole;
-import com.baomidou.mybatisplus.extension.service.IService;
+import edu.seu.server.service.cache.ICacheService;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IMenuRoleService extends IService<MenuRole> {
+public interface IMenuRoleService extends ICacheService<MenuRole> {
 
     /**
      * 根据当前角色rid更新对应的菜单id列表
@@ -21,9 +21,4 @@ public interface IMenuRoleService extends IService<MenuRole> {
      * @return 更新是否成功的公共返回对象
      */
     ResponseBean updateMenuRole(Integer rid, Integer ... mIds);
-
-    /**
-     * 在增删查改操作后清空缓存层中的缓存
-     */
-    default void cleanupCache(){}
 }

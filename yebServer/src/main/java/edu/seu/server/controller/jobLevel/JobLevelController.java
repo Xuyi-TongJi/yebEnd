@@ -52,7 +52,6 @@ public class JobLevelController {
             jobLevel.setCreateDate(LocalDateTime.now());
             jobLevel.setEnabled(jobLevelVo.getEnabled());
             if (jobLevelService.save(jobLevel)) {
-                jobLevelService.cleanUpCache();
                 return ResponseBean.success("添加成功！", null);
             }
             return ResponseBean.error(500, "添加失败！", null);
@@ -64,7 +63,6 @@ public class JobLevelController {
     @DeleteMapping("/{id}")
     public ResponseBean deleteJobLevel(@PathVariable Integer id) {
         if (jobLevelService.removeById(id)) {
-            jobLevelService.cleanUpCache();
             return ResponseBean.success("删除成功!", null);
         } else {
             return ResponseBean.error(500, "删除失败！", null);
@@ -75,7 +73,6 @@ public class JobLevelController {
     @DeleteMapping("/")
     public ResponseBean deleteJobLevelBatch(@RequestBody Integer... ids) {
         if (jobLevelService.removeByIds(Arrays.asList(ids))) {
-            jobLevelService.cleanUpCache();
             return ResponseBean.success("删除成功!", null);
         } else {
             return ResponseBean.error(500, "删除失败！", null);
@@ -88,7 +85,6 @@ public class JobLevelController {
         if (LevelTitleUtil.levelTitleIncluded(jobLevelVo.getTitleLevel())) {
             JobLevel jobLevel = mapper.map(jobLevelVo, JobLevel.class);
             if (jobLevelService.updateById(jobLevel)) {
-                jobLevelService.cleanUpCache();
                 return ResponseBean.success("更新成功！", null);
             }
             return ResponseBean.error(500, "更新失败！", null);

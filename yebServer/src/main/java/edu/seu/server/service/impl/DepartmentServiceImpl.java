@@ -32,8 +32,14 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    public List<Department> getDepartmentList() {
+    public List<Department> listInCache() {
         String keyName = RedisUtil.DEPARTMENT_LIST;
+        return listInCache(keyName, redisTemplate);
+    }
+
+    @Override
+    public List<Department> getDepartmentList() {
+        String keyName = RedisUtil.DEPARTMENT_LIST_BY_DEP;
         List<Department> departmentList = (List<Department>)redisTemplate.opsForValue().get(keyName);
         if (CollectionUtils.isEmpty(departmentList)) {
             departmentList = departmentMapper.getDepartmentList(-1);
@@ -51,7 +57,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         department.setIsParent(false);
         departmentMapper.addDepartment(department);
         if (department.getResult() > 0) {
-            cleanUpCache();
+            cleanupCache();
         }
         return department;
     }
@@ -62,13 +68,15 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         department.setId(id);
         departmentMapper.deleteDepartment(department);
         if (department.getResult() > 0) {
-            cleanUpCache();
+            cleanupCache();
         }
         return department;
     }
 
+
     @Override
-    public void cleanUpCache() {
+    public void cleanupCache() {
         redisTemplate.delete(RedisUtil.DEPARTMENT_LIST);
+        redisTemplate.delete(RedisUtil.DEPARTMENT_LIST_BY_DEP);
     }
 }

@@ -1,7 +1,7 @@
 package edu.seu.server.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.pojo.Position;
+import edu.seu.server.service.cache.ICacheService;
 
 import java.util.List;
 
@@ -13,16 +13,11 @@ import java.util.List;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IPositionService extends IService<Position> {
+public interface IPositionService extends ICacheService<Position> {
 
     /**
-     * 基于缓存实现获取所有职位列表
-     * @return 包含所有职位列表实体类的列表
+     * 查询所有可用的Position集合
+     * @return 包含所有可用position实体类的集合
      */
-    List<Position> getPositionList();
-
-    /**
-     * 清空缓存，增删查操作时调用，默认空实现
-     */
-    default void cleanUpCache(){}
+    List<Position> listEnabled();
 }

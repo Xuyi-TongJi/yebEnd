@@ -1,7 +1,7 @@
 package edu.seu.server.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.pojo.JobLevel;
+import edu.seu.server.service.cache.ICacheService;
 
 import java.util.List;
 
@@ -13,16 +13,11 @@ import java.util.List;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IJobLevelService extends IService<JobLevel> {
+public interface IJobLevelService extends ICacheService<JobLevel> {
 
     /**
-     * 基于缓存实现获取所有职级列表
-     * @return 包含所有职级实体类的列表
+     * 查询所有可用的JobLevel集合
+     * @return 包含所有可用的JobLevel实体类的集合
      */
-    List<JobLevel> getJobLevelList();
-
-    /**
-     * 清空缓存，增删改操作时调用，默认空实现
-     */
-    default void cleanUpCache(){}
+    List<JobLevel> listEnabled();
 }

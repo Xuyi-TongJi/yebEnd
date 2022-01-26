@@ -1,7 +1,7 @@
 package edu.seu.server.mapper;
 
-import edu.seu.server.pojo.Salary;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import edu.seu.server.pojo.Salary;
 
 /**
  * <p>
@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-01-14
  */
 public interface SalaryMapper extends BaseMapper<Salary> {
+
 
 }

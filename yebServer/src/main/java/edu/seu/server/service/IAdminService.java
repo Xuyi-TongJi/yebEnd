@@ -3,6 +3,7 @@ package edu.seu.server.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.pojo.Admin;
 import edu.seu.server.pojo.Role;
+import edu.seu.server.service.cache.ICacheService;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IAdminService extends IService<Admin> {
+public interface IAdminService extends ICacheService<Admin> {
 
     /**
      * 根据当前登录用户的用户名（通过Principal对象获得）获得完整的登录用户信息
@@ -46,9 +47,4 @@ public interface IAdminService extends IService<Admin> {
      */
     Integer updateAdminRole(Integer aid, Integer ... rIds);
 
-    /**
-     * 清空缓存
-     */
-    default void cleanUpCache() {
-    }
 }

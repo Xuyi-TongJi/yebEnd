@@ -7,7 +7,6 @@ import edu.seu.server.service.IPoliticsStatusService;
 import edu.seu.server.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -29,13 +28,13 @@ public class PoliticsStatusServiceImpl extends ServiceImpl<PoliticsStatusMapper,
     }
 
     @Override
-    public List<PoliticsStatus> getPoliticsStatusList() {
+    public List<PoliticsStatus> listInCache() {
         String keyName = RedisUtil.POLITIC_STATUS_LIST;
-        List<PoliticsStatus> results = (List<PoliticsStatus>) redisTemplate.opsForValue().get(keyName);
-        if (CollectionUtils.isEmpty(results)) {
-            results = list();
-            redisTemplate.opsForValue().set(keyName, results);
-        }
-        return results;
+        return listInCache(keyName, redisTemplate);
+    }
+
+    @Override
+    public void cleanupCache() {
+
     }
 }

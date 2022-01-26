@@ -110,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/doc.html", "/webjars/**", "/swagger-resources/**", "/v2/api-docs/**")
                 .antMatchers("/login", "/logout")
-                .antMatchers("/captcha");
+                .antMatchers("/captcha")
+                .antMatchers("/ws/**");
     }
 }

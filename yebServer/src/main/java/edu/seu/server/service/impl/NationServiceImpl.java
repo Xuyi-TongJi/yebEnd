@@ -7,7 +7,6 @@ import edu.seu.server.service.INationService;
 import edu.seu.server.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -29,13 +28,13 @@ public class NationServiceImpl extends ServiceImpl<NationMapper, Nation> impleme
     }
 
     @Override
-    public List<Nation> getNationList() {
+    public List<Nation> listInCache() {
         String keyName = RedisUtil.NATION_LIST;
-        List<Nation> results = (List<Nation>) redisTemplate.opsForValue().get(keyName);
-        if (CollectionUtils.isEmpty(results)) {
-            results = list();
-            redisTemplate.opsForValue().set(keyName, results);
-        }
-        return results;
+        return listInCache(keyName, redisTemplate);
+    }
+
+    @Override
+    public void cleanupCache() {
+
     }
 }

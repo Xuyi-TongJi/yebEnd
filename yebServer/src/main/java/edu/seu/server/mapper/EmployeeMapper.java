@@ -38,4 +38,11 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
      * @return 包含员工实体类的List，如果id != null，则该List只有一条记录
      */
     List<Employee> getEmployee(Integer id);
+
+    /**
+     * 分页查询带有帐套信息的员工列表
+     * @param page 分页开启类
+     * @return 包含Employee实体类的分页对象
+     */
+    IPage<Employee> getEmployeeWithSalaryByPage(Page<Employee> page);
 }

@@ -77,10 +77,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         String keyName = RedisUtil.MENU_ID_LIST;
         List<Integer> midList = (List<Integer>) redisTemplate.opsForValue().get(keyName);
         if (CollectionUtils.isEmpty(midList)) {
-            midList = list().stream().filter(menu -> menu.getParentId() != null && menu.getParentId() != 1)
+            midList = super.list().stream().filter(menu -> menu.getParentId() != null && menu.getParentId() != 1)
                     .map(Menu::getId).collect(Collectors.toList());
             redisTemplate.opsForValue().set(keyName, midList);
         }
         return midList;
+    }
+
+    @Override
+    public void cleanupCache() {
+        redisTemplate.delete(RedisUtil.MENU_ID_LIST);
+        redisTemplate.delete(RedisUtil.MENU_LIST_ADMIN_PREFIX);
+        redisTemplate.delete(RedisUtil.MENU_WITH_ROLE);
     }
 }

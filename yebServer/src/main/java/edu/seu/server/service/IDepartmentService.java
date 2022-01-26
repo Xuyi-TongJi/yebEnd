@@ -2,6 +2,7 @@ package edu.seu.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.pojo.Department;
+import edu.seu.server.service.cache.ICacheService;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IDepartmentService extends IService<Department> {
+public interface IDepartmentService extends ICacheService<Department> {
 
     /**
      * 获得所有部门的列表
@@ -34,9 +35,4 @@ public interface IDepartmentService extends IService<Department> {
      * @return 存储新增结果信息的实体类，使用存储过程时，该对象与传入的实体类为同一对象
      */
     Department deleteDepartment(Integer id);
-    /**
-     * 清空缓存
-     */
-    default void cleanUpCache() {
-    }
 }

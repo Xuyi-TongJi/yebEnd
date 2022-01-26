@@ -37,6 +37,11 @@ public class RedisUtil {
     public static final String DEPARTMENT_LIST = "departmentList";
 
     /**
+     *
+     */
+    public static final String DEPARTMENT_LIST_BY_DEP = "departmentListByDep";
+
+    /**
      * 用户id列表
      */
     public static final String ADMIN_ID_LIST = "adminIdList";
@@ -60,5 +65,10 @@ public class RedisUtil {
      * 职位列表
      */
     public static final String POSITION_LIST = "positionList";
+
+    /**
+     * 工资帐套列表
+     */
+    public static final String SALARY_LIST = "salaryList";
 
 }

@@ -30,18 +30,18 @@ public class JobLevelServiceImpl extends ServiceImpl<JobLevelMapper, JobLevel> i
     }
 
     @Override
-    public List<JobLevel> getJobLevelList() {
+    public List<JobLevel> listEnabled() {
         String keyName = RedisUtil.JOB_LEVEL_LIST;
         List<JobLevel> results = (List<JobLevel>) redisTemplate.opsForValue().get(keyName);
         if (CollectionUtils.isEmpty(results)) {
-            results = list(new QueryWrapper<JobLevel>().eq("enabled", true));
+            results = super.list(new QueryWrapper<JobLevel>().eq("enabled", true));
             redisTemplate.opsForValue().set(keyName, results);
         }
         return results;
     }
 
     @Override
-    public void cleanUpCache() {
+    public void cleanupCache() {
         redisTemplate.delete(RedisUtil.JOB_LEVEL_LIST);
     }
 }

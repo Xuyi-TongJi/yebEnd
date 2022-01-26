@@ -3,6 +3,7 @@ package edu.seu.server.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import edu.seu.server.common.pojo.MenuPojo;
 import edu.seu.server.pojo.Menu;
+import edu.seu.server.service.cache.ICacheService;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @author xuyitjuseu
  * @since 2022-01-14
  */
-public interface IMenuService extends IService<Menu> {
+public interface IMenuService extends ICacheService<Menu> {
 
     /**
      * 根据用户id查询该用户id对应的菜单列表

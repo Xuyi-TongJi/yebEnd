@@ -92,11 +92,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return -1;
     }
 
-    @Override
-    public void cleanUpCache() {
-        redisTemplate.delete(RedisUtil.ADMIN_ID_LIST);
-    }
-
     private boolean ridIncluded(Integer ... rIds) {
         List<Integer> ridList = roleService.getRidList();
         for (Integer ridToAdd:
@@ -117,5 +112,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             redisTemplate.opsForValue().set(keyName, adminIdList);
         }
         return adminIdList.contains(adminId);
+    }
+
+    @Override
+    public void cleanupCache() {
+        redisTemplate.delete(RedisUtil.ADMIN_ID_LIST);
     }
 }

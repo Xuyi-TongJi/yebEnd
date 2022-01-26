@@ -30,13 +30,18 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     }
 
     @Override
-    public List<Position> getPositionList() {
+    public List<Position> listEnabled() {
         String keyName = RedisUtil.POSITION_LIST;
         List<Position> results = (List<Position>) redisTemplate.opsForValue().get(keyName);
         if (CollectionUtils.isEmpty(results)) {
-            results = list(new QueryWrapper<Position>().eq("enabled", true));
+            results = super.list(new QueryWrapper<Position>().eq("enabled", true));
             redisTemplate.opsForValue().set(keyName, results);
         }
         return results;
+    }
+
+    @Override
+    public void cleanupCache() {
+        redisTemplate.delete(RedisUtil.POSITION_LIST);
     }
 }

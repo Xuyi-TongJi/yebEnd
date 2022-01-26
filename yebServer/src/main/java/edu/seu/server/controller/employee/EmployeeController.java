@@ -73,31 +73,31 @@ public class EmployeeController {
     @ApiModelProperty("获取所有政治面貌")
     @GetMapping("/politicStatus")
     public List<PoliticsStatus> getPoliticsStatusList() {
-        return politicsStatusService.getPoliticsStatusList();
+        return politicsStatusService.listInCache();
     }
 
     @ApiModelProperty("获取所有民族列表")
     @GetMapping("/nation")
     public List<Nation> getNationList() {
-        return nationService.getNationList();
+        return nationService.listInCache();
     }
 
     @ApiModelProperty("获取所有职位")
     @GetMapping("/position")
     public List<Position> getPositionList() {
-        return positionService.getPositionList();
+        return positionService.listEnabled();
     }
 
     @ApiModelProperty("获取所有职级")
     @GetMapping("/jobLevel")
     public List<JobLevel> getJobLevelList() {
-        return jobLevelService.getJobLevelList();
+        return jobLevelService.listEnabled();
     }
 
     @ApiModelProperty("获取所有部门")
     @GetMapping("/department")
     public List<Department> getDepartmentLevelList() {
-        return departmentService.getDepartmentList();
+        return departmentService.listInCache();
     }
 
     @ApiModelProperty("获取所有合同类型")
@@ -193,11 +193,11 @@ public class EmployeeController {
         // 去掉标题行
         params.setTitleRows(1);
         try {
-            List<Nation> nationList = nationService.getNationList();
-            List<Position> positionList = positionService.getPositionList();
-            List<JobLevel> jobLevelList = jobLevelService.getJobLevelList();
-            List<Department> departmentList = departmentService.getDepartmentList();
-            List<PoliticsStatus> politicsStatusList = politicsStatusService.getPoliticsStatusList();
+            List<Nation> nationList = nationService.listInCache();
+            List<Position> positionList = positionService.listEnabled();
+            List<JobLevel> jobLevelList = jobLevelService.listEnabled();
+            List<Department> departmentList = departmentService.listInCache();
+            List<PoliticsStatus> politicsStatusList = politicsStatusService.listInCache();
             List<Employee> list = ExcelImportUtil.importExcel(file.getInputStream(), Employee.class, params);
             list.forEach(employee -> {
                 employee.setNationId(

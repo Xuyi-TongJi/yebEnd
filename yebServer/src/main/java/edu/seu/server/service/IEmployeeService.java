@@ -56,4 +56,5 @@ public interface IEmployeeService extends IService<Employee> {
      * @param serializable 可序列化的消息
      */
     default void sendMessage(Serializable serializable){}
+
 }

@@ -40,7 +40,7 @@ public class PermissionController {
     @ApiOperation("获取角色列表")
     @GetMapping("/")
     public List<Role> getRoleList() {
-        return roleService.getRoleList();
+        return roleService.listInCache();
     }
 
     @ApiOperation("添加角色")
@@ -62,7 +62,6 @@ public class PermissionController {
     @DeleteMapping("/{rid}")
     public ResponseBean deleteRole(@PathVariable Integer rid) {
         if (roleService.removeById(rid)) {
-            roleService.cleanUpCache();
             return ResponseBean.success("删除成功！", null);
         } else {
             return ResponseBean.error(500, "删除失败", null);
@@ -78,7 +77,6 @@ public class PermissionController {
             role.setName(prefix + name);
         }
         if (roleService.updateById(role)) {
-            roleService.cleanUpCache();
             return ResponseBean.success("更新成功！", null);
         } else {
             return ResponseBean.error(500, "更新失败", null);
@@ -89,7 +87,6 @@ public class PermissionController {
     @DeleteMapping("/")
     public ResponseBean deleteRoleBatch(@RequestBody Integer ... rids) {
         if (roleService.removeByIds(Arrays.asList(rids))) {
-            roleService.cleanUpCache();
             return ResponseBean.success("批量删除成功！", null);
         } else {
             return ResponseBean.error(500, "批量删除失败", null);
