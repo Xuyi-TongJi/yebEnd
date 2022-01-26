@@ -80,6 +80,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
                                         = new UsernamePasswordAuthenticationToken(userDetails, null,
                                         userDetails.getAuthorities());
                                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                                accessor.setUser(authentication);
                             }
                         }
                     }
