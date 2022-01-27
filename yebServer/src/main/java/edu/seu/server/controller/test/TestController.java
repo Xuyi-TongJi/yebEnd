@@ -1,28 +1,40 @@
 package edu.seu.server.controller.test;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import edu.seu.server.util.OssUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 测试接口
  * @author xuyitjuseu
  */
-@RestController
+@Slf4j
+@Controller
+@RequestMapping("/test")
 public class TestController {
 
     @RequestMapping("/hello")
+    @ResponseBody
     public String hello() {
         return "hello";
     }
 
-    @GetMapping("/employee/basic/hello")
-    public String testRoleUrl() {
-        return "/employee/basic/hello";
+    @RequestMapping("/")
+    public String index() {
+        return "fileUpload";
     }
 
-    @GetMapping("/employee/advanced/hello")
-    public String testRoleUrl2() {
-        return "/employee/advanced/hello";
+    @PostMapping("/submit")
+    public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        String fileName = OssUtil.uploadImages(file, "test");
+        request.setAttribute("fileName", fileName);
+        return "success";
     }
 }

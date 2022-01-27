@@ -100,9 +100,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
+                // swagger相关接口
                 .antMatchers("/doc.html", "/webjars/**", "/swagger-resources/**", "/v2/api-docs/**")
+                // 登录，登出接口
                 .antMatchers("/login", "/logout")
+                // 验证码服务接口
                 .antMatchers("/captcha")
-                .antMatchers("/ws/**");
+                // websocket服务接口
+                .antMatchers("/ws/**")
+                // 测试接口
+                .antMatchers("/test/**");
     }
 }

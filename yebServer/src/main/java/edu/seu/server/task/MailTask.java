@@ -11,7 +11,6 @@ import edu.seu.server.util.MessageConstants;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
  * 邮件定时发送任务
  * @author xuyitjuseu
  */
-@Component
+// @Component
 public class MailTask {
 
     private final IMailLogService mailLogService;

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class CommonTest {
     @Test
@@ -71,5 +72,12 @@ public class CommonTest {
         Integer a = 1;
         Integer b = 1;
         System.out.println(a == b);
+    }
+
+    @Test
+    public void test08() {
+        String file = "abc.txt";
+        String suffix = Objects.requireNonNull(file.split("\\."))[1];
+        System.out.println(suffix);
     }
 }

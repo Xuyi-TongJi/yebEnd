@@ -1,21 +1,25 @@
 package edu.seu.server.controller.personalCenter;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import edu.seu.server.common.lang.ResponseBean;
 import edu.seu.server.common.vo.AdminUpdateVo;
 import edu.seu.server.pojo.Admin;
 import edu.seu.server.service.IAdminService;
+import edu.seu.server.util.OssUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FileUtils;
 import org.dozer.Mapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -81,4 +85,66 @@ public class PersonalCenterController {
         }
     }
 
+    @ApiOperation("更新头像")
+    @PutMapping("/userFace")
+    public ResponseBean updateUserFace(@RequestParam("file")MultipartFile file,
+                                       @RequestParam Integer aid,
+                                       Authentication authentication) {
+        Integer loginAid = ((Admin)authentication.getPrincipal()).getId();
+        if (!loginAid.equals(aid)) {
+            return ResponseBean.error(403, "非法操作！", null);
+        }
+        String fileName = OssUtil.uploadImages(file, "userFaces/" + aid);
+        String userFaceColumn = "userFace";
+        String idColumn = "id";
+        if (adminService.update(new UpdateWrapper<Admin>().set(userFaceColumn, fileName).eq(idColumn, aid))) {
+            return ResponseBean.success("更新成功！", null);
+        } else {
+            return ResponseBean.error(500, "更新失败！", null);
+        }
+    }
+
+    @ApiOperation(value = "获得头像", produces = "image")
+    @GetMapping("/userFace")
+    public void getUserFace(Authentication authentication, HttpServletResponse response) {
+        Integer loginAid = ((Admin)authentication.getPrincipal()).getId();
+        String fileName = adminService.list(new QueryWrapper<Admin>().select("userFace").eq("id", loginAid))
+                .get(0).getUserFace();
+        InputStream is = OssUtil.downloadImages(fileName);
+        if (is != null) {
+            String[] strings = fileName.split("\\.");
+            String suffix = strings[strings.length - 1];
+            response.setHeader("Connection", "close");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("image/" + suffix);
+            OutputStream pw = null;
+            FileInputStream fis = null;
+            byte[] buffer = new byte[1024];
+            int bytesRead = 0;
+            try {
+                pw = response.getOutputStream();
+                // 用文件接收Oss客户端返回的输入流is
+                File targetFile = new File(fileName);
+                FileUtils.copyInputStreamToFile(is, targetFile);
+                fis = new FileInputStream(targetFile);
+                while ((bytesRead = fis.read(buffer, 0, buffer.length)) != -1) {
+                    pw.write(buffer, 0, bytesRead);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                    if (pw != null) {
+                        pw.close();
+                    }
+                    if (fis != null) {
+                        fis.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
