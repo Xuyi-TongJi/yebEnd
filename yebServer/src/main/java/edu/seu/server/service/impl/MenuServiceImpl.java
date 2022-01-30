@@ -69,7 +69,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Override
     public List<MenuPojo> getAllMenus() {
-        return menuMapper.getAllMenus();
+        String key = RedisUtil.MENU_LIST_WITH_CHILDREN;
+        List<MenuPojo> result = (List<MenuPojo>) redisTemplate.opsForValue().get(key);
+        if (CollectionUtils.isEmpty(result)) {
+            result = menuMapper.getAllMenus();
+            redisTemplate.opsForValue().set(key, result);
+        }
+        return result;
     }
 
     @Override
@@ -89,5 +95,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         redisTemplate.delete(RedisUtil.MENU_ID_LIST);
         redisTemplate.delete(RedisUtil.MENU_LIST_ADMIN_PREFIX);
         redisTemplate.delete(RedisUtil.MENU_WITH_ROLE);
+        redisTemplate.delete(RedisUtil.MENU_LIST_WITH_CHILDREN);
     }
 }

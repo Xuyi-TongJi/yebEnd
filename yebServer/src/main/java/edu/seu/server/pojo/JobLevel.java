@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,14 +34,17 @@ public class JobLevel implements Serializable {
 
     @ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
+    @NotNull(message = "id不可为空")
     private Integer id;
 
     @ApiModelProperty(value = "职称名称")
     @Excel(name = "职称")
+    @NotBlank(message = "职称名称不能为空")
     @NonNull
     private String name;
 
     @ApiModelProperty(value = "职称等级")
+    @NotBlank(message = "职称等级不能为空")
     private String titleLevel;
 
     @ApiModelProperty(value = "创建时间")

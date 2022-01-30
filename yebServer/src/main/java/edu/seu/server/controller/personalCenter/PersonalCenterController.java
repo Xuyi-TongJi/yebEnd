@@ -115,7 +115,6 @@ public class PersonalCenterController {
             String[] strings = fileName.split("\\.");
             String suffix = strings[strings.length - 1];
             response.setHeader("Connection", "close");
-            response.setCharacterEncoding("UTF-8");
             response.setContentType("image/" + suffix);
             OutputStream pw = null;
             FileInputStream fis = null;

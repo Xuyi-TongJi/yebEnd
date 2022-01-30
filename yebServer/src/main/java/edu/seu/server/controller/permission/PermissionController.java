@@ -8,8 +8,11 @@ import edu.seu.server.pojo.Role;
 import edu.seu.server.service.IMenuRoleService;
 import edu.seu.server.service.IMenuService;
 import edu.seu.server.service.IRoleService;
+import edu.seu.server.util.FunctionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
  * 权限控制器,用于对角色表进行操作，角色名称必须符合Spring Security规范
  * @author xuyitjuseu
  */
+@Slf4j
 @RestController
 @RequestMapping("/system/basic/permission")
 @Api(tags = "PermissionController")
@@ -43,14 +47,33 @@ public class PermissionController {
         return roleService.listInCache();
     }
 
+    @ApiOperation("查询所有角色及其可以访问的菜单级联列表")
+    @GetMapping("/roles")
+    public List<Role> getRoleListWithMenus() {
+        return roleService.getRoleWithMenus();
+    }
+
+    @ApiOperation("查询所有菜单及其子菜单")
+    @GetMapping("/menus")
+    public List<MenuPojo> getAllMenus() {
+        return menuService.getAllMenus();
+    }
+
+    @ApiOperation("根据角色id查询菜单id")
+    @GetMapping("/mid/{rid}")
+    public List<Integer> getMidListWithRid(@PathVariable String rid) {
+        return menuRoleService.list(new QueryWrapper<MenuRole>().eq("rid", rid))
+                .stream().map(MenuRole::getMid).collect(Collectors.toList());
+    }
+
     @ApiOperation("添加角色")
     @PostMapping("/")
-    public ResponseBean addRole(@RequestBody Role role) {
-        String prefix = "ROLE_";
-        if (!role.getName().startsWith(prefix)) {
-            String name = role.getName();
-            role.setName(prefix + name);
+    public ResponseBean addRole(@RequestBody @Validated Role role) {
+        ResponseBean responseBean;
+        if ((responseBean = FunctionUtil.validRoleName(role)) != null) {
+            return responseBean;
         }
+        FunctionUtil.addRoleNamePrefix(role);
         if (roleService.save(role)) {
             return ResponseBean.success("添加成功！", null);
         } else {
@@ -68,21 +91,6 @@ public class PermissionController {
         }
     }
 
-    @ApiOperation("更新角色")
-    @PutMapping("/")
-    public ResponseBean updateRole(@RequestBody Role role) {
-        String prefix = "ROLE_";
-        if (!role.getName().startsWith(prefix)) {
-            String name = role.getName();
-            role.setName(prefix + name);
-        }
-        if (roleService.updateById(role)) {
-            return ResponseBean.success("更新成功！", null);
-        } else {
-            return ResponseBean.error(500, "更新失败", null);
-        }
-    }
-
     @ApiOperation("批量删除")
     @DeleteMapping("/")
     public ResponseBean deleteRoleBatch(@RequestBody Integer ... rids) {
@@ -93,17 +101,19 @@ public class PermissionController {
         }
     }
 
-    @ApiOperation("查询所有菜单及其子菜单")
-    @GetMapping("/menus")
-    public List<MenuPojo> getAllMenus() {
-        return menuService.getAllMenus();
-    }
-
-    @ApiOperation("根据角色id查询菜单id")
-    @GetMapping("/mid/{rid}")
-    public List<Integer> getMidListWithRid(@PathVariable String rid) {
-        return menuRoleService.list(new QueryWrapper<MenuRole>().eq("rid", rid))
-                .stream().map(MenuRole::getMid).collect(Collectors.toList());
+    @ApiOperation("更新角色")
+    @PutMapping("/")
+    public ResponseBean updateRole(@RequestBody @Validated Role role) {
+        ResponseBean responseBean;
+        if ((responseBean = FunctionUtil.validRoleName(role)) != null) {
+            return responseBean;
+        }
+        FunctionUtil.addRoleNamePrefix(role);
+        if (roleService.updateById(role)) {
+            return ResponseBean.success("更新成功！", null);
+        } else {
+            return ResponseBean.error(500, "更新失败", null);
+        }
     }
 
     @ApiOperation("根据角色rid更新角色菜单")

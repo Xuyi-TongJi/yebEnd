@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
+    @Resource
+    private RoleMapper roleMapper;
+
     private final RedisTemplate<String, Object> redisTemplate;
 
     public RoleServiceImpl(RedisTemplate<String, Object> redisTemplate) {
@@ -33,6 +37,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     public List<Role> listInCache() {
         String keyName = RedisUtil.ROLE_LIST;
         return listInCache(keyName, redisTemplate);
+    }
+
+    @Override
+    public List<Role> getRoleWithMenus() {
+        String keyName = RedisUtil.ROLE_LIST_WITH_MENU;
+        List<Role> results = (List<Role>) redisTemplate.opsForValue().get(keyName);
+        if (CollectionUtils.isEmpty(results)) {
+            results = roleMapper.getRoleWithMenus();
+            redisTemplate.opsForValue().set(keyName, results);
+        }
+        return results;
     }
 
     @Override
@@ -50,6 +65,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     public void cleanupCache() {
         redisTemplate.delete(RedisUtil.ROLE_LIST);
         redisTemplate.delete(RedisUtil.ROLE_ID_LIST);
+        redisTemplate.delete(RedisUtil.ROLE_LIST_WITH_MENU);
+        redisTemplate.delete(RedisUtil.MENU_WITH_ROLE);
     }
-
 }

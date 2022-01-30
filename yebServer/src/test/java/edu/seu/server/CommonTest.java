@@ -2,6 +2,8 @@ package edu.seu.server;
 
 import edu.seu.server.common.vo.AdminUpdateVo;
 import edu.seu.server.pojo.Admin;
+import edu.seu.server.pojo.Role;
+import edu.seu.server.util.FunctionUtil;
 import edu.seu.server.util.enumUtil.EngageFormUtil;
 import edu.seu.server.util.enumUtil.LevelTitleUtil;
 import org.dozer.DozerBeanMapper;
@@ -79,5 +81,13 @@ public class CommonTest {
         String file = "abc.txt";
         String suffix = Objects.requireNonNull(file.split("\\."))[1];
         System.out.println(suffix);
+    }
+
+    @Test
+    public void test09() {
+        Role role = new Role();
+        role.setName("testRole");
+        role.setNameZh("中文");
+        System.out.println(FunctionUtil.validRoleName(role));
     }
 }

@@ -16,6 +16,12 @@ import java.util.List;
 public interface IRoleService extends ICacheService<Role> {
 
     /**
+     * 获得包含级联菜单的角色列表
+     * @return 角色实体类列表
+     */
+    List<Role> getRoleWithMenus();
+
+    /**
      * 获得角色id列表
      * @return 角色id列表
      */

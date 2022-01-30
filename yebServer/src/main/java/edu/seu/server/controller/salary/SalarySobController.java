@@ -37,9 +37,10 @@ public class SalarySobController {
 
     @ApiOperation("获取所有员工及其帐套信息")
     @GetMapping("/")
-    public IPage<Employee> getEmployeeWithSalaryByPage(@RequestParam(defaultValue = "1")Integer currentPage,
+    public ResponseBean getEmployeeWithSalaryByPage(@RequestParam(defaultValue = "1")Integer currentPage,
                                                  @RequestParam(defaultValue = "10")Integer pageSize) {
-        return salaryService.getEmployeeWithSalaryByPage(currentPage, pageSize);
+        IPage<Employee> result = salaryService.getEmployeeWithSalaryByPage(currentPage, pageSize);
+        return ResponseBean.success("查询成功！", result);
     }
 
     @ApiOperation("更新员工帐套信息")

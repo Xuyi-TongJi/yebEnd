@@ -4,14 +4,50 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="edu.seu.server.pojo.Role">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="nameZh" property="nameZh" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="nameZh" property="nameZh"/>
+    </resultMap>
+    <resultMap id="RoleWithMenus" type="edu.seu.server.pojo.Role">
+        <id column="rid" property="id"/>
+        <collection property="menus" ofType="edu.seu.server.common.pojo.MenuPojo" javaType="java.util.Set">
+            <id column="id1" property="id"/>
+            <result column="name1" property="name"/>
+            <collection property="children" ofType="edu.seu.server.common.pojo.MenuPojo">
+                <id column="id2" property="id"/>
+                <result column="name2" property="name"/>
+                <collection property="children" ofType="edu.seu.server.common.pojo.MenuPojo">
+                    <id column="id3" property="id"/>
+                    <result column="name3" property="name"/>
+                </collection>
+            </collection>
+        </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, nameZh
+        id
+        , name, nameZh
     </sql>
+    <select id="getRoleWithMenus" resultMap="RoleWithMenus">
+        SELECT r.id     AS rid,
+               m1.id    AS id1,
+               m1.name  AS name1,
+               m2.id    AS id2,
+               m2.name  AS name2,
+               m3.id    AS id3,
+               m3.name  AS name3
+        FROM t_menu AS m1,
+             t_menu AS m2,
+             t_menu AS m3,
+             t_menu_role AS mr,
+             t_role AS r
+        WHERE m2.parentId = m1.id
+          AND m3.parentId = m2.id
+          AND m3.enabled = true
+          AND m3.id = mr.mid
+          AND r.id = mr.rid
+        ORDER BY rid, id1, id2, id3
+    </select>
 
 </mapper>

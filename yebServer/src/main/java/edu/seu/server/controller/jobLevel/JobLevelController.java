@@ -1,7 +1,6 @@
 package edu.seu.server.controller.jobLevel;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.seu.server.common.lang.ResponseBean;
 import edu.seu.server.common.vo.JobLevelVo;
 import edu.seu.server.pojo.JobLevel;
@@ -38,10 +37,10 @@ public class JobLevelController {
         this.mapper = mapper;
     }
 
-    @ApiOperation("查询所有可用职称")
+    @ApiOperation("查询所有职称")
     @GetMapping("/")
     public List<JobLevel> getJobLevelList() {
-        return jobLevelService.list(new QueryWrapper<JobLevel>().eq("enabled", true));
+        return jobLevelService.list();
     }
 
     @ApiOperation("增加职称")
@@ -50,7 +49,7 @@ public class JobLevelController {
         if (LevelTitleUtil.levelTitleIncluded(jobLevelVo.getTitleLevel())) {
             JobLevel jobLevel = mapper.map(jobLevelVo, JobLevel.class);
             jobLevel.setCreateDate(LocalDateTime.now());
-            jobLevel.setEnabled(jobLevelVo.getEnabled());
+            jobLevel.setEnabled(true);
             if (jobLevelService.save(jobLevel)) {
                 return ResponseBean.success("添加成功！", null);
             }
@@ -79,11 +78,10 @@ public class JobLevelController {
         }
     }
 
-    @ApiOperation("更改职称")
+    @ApiOperation("更新职称")
     @PutMapping("/")
-    public ResponseBean updateJobLevel(@RequestBody @Validated JobLevelVo jobLevelVo) {
-        if (LevelTitleUtil.levelTitleIncluded(jobLevelVo.getTitleLevel())) {
-            JobLevel jobLevel = mapper.map(jobLevelVo, JobLevel.class);
+    public ResponseBean updateJobLevel(@RequestBody @Validated JobLevel jobLevel) {
+        if (LevelTitleUtil.levelTitleIncluded(jobLevel.getTitleLevel())) {
             if (jobLevelService.updateById(jobLevel)) {
                 return ResponseBean.success("更新成功！", null);
             }

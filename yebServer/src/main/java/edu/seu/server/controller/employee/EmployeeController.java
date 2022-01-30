@@ -63,11 +63,13 @@ public class EmployeeController {
 
     @ApiModelProperty("员工列表分页模糊查询，关键字封装在实体类的姓名属性中")
     @GetMapping("/")
-    public IPage<Employee> getEmployeeByPage(@RequestParam(defaultValue = "1") Integer currentPage,
+    public ResponseBean getEmployeeByPage(@RequestParam(defaultValue = "1") Integer currentPage,
                                              @RequestParam(defaultValue = "10") Integer pageSize,
                                              Employee employee,
                                              LocalDate[] beginDateScopes) {
-        return employeeService.getEmployeeByPage(currentPage, pageSize, employee, beginDateScopes);
+        IPage<Employee> employeeByPage
+                = employeeService.getEmployeeByPage(currentPage, pageSize, employee, beginDateScopes);
+        return ResponseBean.success("查询成功！", employeeByPage);
     }
 
     @ApiModelProperty("获取所有政治面貌")

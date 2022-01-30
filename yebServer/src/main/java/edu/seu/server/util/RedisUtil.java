@@ -17,6 +17,16 @@ public class RedisUtil {
     public static final String MENU_ID_LIST = "midIdList";
 
     /**
+     * 菜单-角色关联列表
+     */
+    public static final String MENU_WITH_ROLE = "menuListWithRole";
+
+    /**
+     * 菜单及其子菜单列表
+     */
+    public static final String MENU_LIST_WITH_CHILDREN = "menuListWithChildren";
+
+    /**
      * 角色id列表
      */
     public static final String ROLE_ID_LIST = "roleIdList";
@@ -27,9 +37,9 @@ public class RedisUtil {
     public static final String ROLE_LIST = "roleList";
 
     /**
-     * 菜单-角色关联列表
+     * 包含级联菜单的角色列表
      */
-    public static final String MENU_WITH_ROLE = "menuListWithRole";
+    public static final String ROLE_LIST_WITH_MENU = "roleListWithMenu";
 
     /**
      * 部门列表

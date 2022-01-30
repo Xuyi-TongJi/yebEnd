@@ -1,12 +1,14 @@
 package edu.seu.server.controller.position;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.seu.server.common.lang.ResponseBean;
+import edu.seu.server.common.vo.PositionVo;
 import edu.seu.server.pojo.Position;
 import edu.seu.server.service.IPositionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.dozer.Mapper;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,16 +29,18 @@ import java.util.List;
 public class PositionController {
 
     private final IPositionService positionService;
+    private final Mapper mapper;
 
-    public PositionController(IPositionService positionService) {
+    public PositionController(IPositionService positionService, Mapper mapper) {
         this.positionService = positionService;
+        this.mapper = mapper;
     }
 
-    @ApiOperation(value = "获得所有职称")
+    @ApiOperation(value = "获得所有职称，包括不可用的职称")
     @GetMapping("/")
     public List<Position> getPositionList() {
         // list可以直接转为json格式
-        return positionService.list(new QueryWrapper<Position>().eq("enabled", true));
+        return positionService.list();
     }
 
     @ApiOperation(value = "更新职称")
@@ -51,7 +55,9 @@ public class PositionController {
 
     @ApiOperation(value = "添加职称")
     @PostMapping("/")
-    public ResponseBean addPosition(@RequestBody Position position) {
+    public ResponseBean addPosition(@RequestBody @Validated PositionVo positionVo) {
+        Position position = mapper.map(positionVo, Position.class);
+        position.setEnabled(true);
         position.setCreateDate(LocalDateTime.now());
         if (positionService.save(position)) {
             return ResponseBean.success("添加成功", null);
