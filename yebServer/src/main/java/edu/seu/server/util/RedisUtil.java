@@ -12,7 +12,7 @@ public class RedisUtil {
     public static final String MENU_LIST_ADMIN_PREFIX = "menu_";
 
     /**
-     * 菜单id列表
+     * （末级）菜单id列表
      */
     public static final String MENU_ID_LIST = "midIdList";
 
@@ -25,11 +25,6 @@ public class RedisUtil {
      * 菜单及其子菜单列表
      */
     public static final String MENU_LIST_WITH_CHILDREN = "menuListWithChildren";
-
-    /**
-     * 角色id列表
-     */
-    public static final String ROLE_ID_LIST = "roleIdList";
 
     /**
      * 角色列表
@@ -47,7 +42,7 @@ public class RedisUtil {
     public static final String DEPARTMENT_LIST = "departmentList";
 
     /**
-     *
+     * 部门列表
      */
     public static final String DEPARTMENT_LIST_BY_DEP = "departmentListByDep";
 

@@ -15,7 +15,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -83,8 +82,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         String keyName = RedisUtil.MENU_ID_LIST;
         List<Integer> midList = (List<Integer>) redisTemplate.opsForValue().get(keyName);
         if (CollectionUtils.isEmpty(midList)) {
-            midList = super.list().stream().filter(menu -> menu.getParentId() != null && menu.getParentId() != 1)
-                    .map(Menu::getId).collect(Collectors.toList());
+            midList = menuMapper.getMidList();
             redisTemplate.opsForValue().set(keyName, midList);
         }
         return midList;

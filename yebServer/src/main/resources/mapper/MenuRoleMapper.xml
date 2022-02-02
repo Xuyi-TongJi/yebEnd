@@ -22,5 +22,16 @@
             (#{mId}, #{rid})
         </foreach>
     </insert>
-
+    <!-- 根据rid，mid为角色添加菜单 -->
+    <select id="addMenuRole" statementType="CALLABLE" parameterType="java.util.Map">
+        {call addMenuRole(#{rid,mode=IN,jdbcType=INTEGER},
+                          #{mid,mode=IN,jdbcType=INTEGER},
+                          #{result,mode=OUT,jdbcType=INTEGER})}
+    </select>
+    <!-- 根据rid,mid为角色删除菜单 -->
+    <select id="deleteMenuRole" statementType="CALLABLE" parameterType="java.util.Map">
+        {call deleteMenuRole(#{rid,mode=IN,jdbcType=INTEGER},
+                          #{mid,mode=IN,jdbcType=INTEGER},
+                          #{result,mode=OUT,jdbcType=INTEGER})}
+    </select>
 </mapper>

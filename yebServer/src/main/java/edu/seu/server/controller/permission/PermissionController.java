@@ -116,9 +116,15 @@ public class PermissionController {
         }
     }
 
-    @ApiOperation("根据角色rid更新角色菜单")
-    @PutMapping("/{rid}")
-    public ResponseBean updateMenuRole(@PathVariable Integer rid, @RequestBody Integer... mIds) {
-        return menuRoleService.updateMenuRole(rid, mIds);
+    @ApiOperation("根据角色rid添加角色菜单")
+    @PostMapping("/{rid}/{mid}")
+    public ResponseBean addMenuRole(@PathVariable Integer rid, @PathVariable Integer mid) {
+        return menuRoleService.addMenuRole(rid, mid);
+    }
+
+    @ApiOperation("根据角色rid删除角色菜单")
+    @DeleteMapping("/{rid}/{mid}")
+    public ResponseBean deleteMenuRole(@PathVariable Integer rid, @PathVariable Integer mid) {
+        return menuRoleService.deleteMenuRole(rid, mid);
     }
 }

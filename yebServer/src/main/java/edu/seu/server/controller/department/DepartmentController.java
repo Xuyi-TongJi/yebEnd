@@ -59,9 +59,9 @@ public class DepartmentController {
         if (result > 0) {
             return ResponseBean.success("删除成功!", null);
         } else if (result == -1) {
-            return ResponseBean.error(500, "当前部门下含有员工，不能删除", null);
+            return ResponseBean.error(400, "当前部门下含有员工，不能删除", null);
         } else {
-            return ResponseBean.error(500, "当前部门不存在或含有子部门，不能删除", null);
+            return ResponseBean.error(400, "当前部门不存在或含有子部门，不能删除", null);
         }
     }
 }

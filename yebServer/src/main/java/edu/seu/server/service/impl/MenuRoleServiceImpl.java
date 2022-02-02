@@ -14,7 +14,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -29,7 +32,6 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
 
     private final MenuRoleMapper menuRoleMapper;
     private final IMenuService menuService;
-    private final IRoleService roleService;
     private final RedisTemplate<String, Object> redisTemplate;
 
     public MenuRoleServiceImpl(MenuRoleMapper menuRoleMapper,
@@ -38,20 +40,13 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
                                RedisTemplate<String, Object> redisTemplate) {
         this.menuRoleMapper = menuRoleMapper;
         this.menuService = menuService;
-        this.roleService = roleService;
         this.redisTemplate = redisTemplate;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Deprecated
     public ResponseBean updateMenuRole(Integer rid, Integer... mIds) {
-        // 判断rid和mIds是否合法,两参数合法时，在进行相应操作
-        if (!ridIncluded(rid)) {
-            return ResponseBean.error(500, "非法的角色参数!", null);
-        }
-        if (null != mIds && mIds.length != 0 && !mIdsIncluded(mIds)) {
-            return ResponseBean.error(500, "非法的菜单参数!", null);
-        }
         String rIdColumn = "rid";
         if (menuRoleMapper.delete(new QueryWrapper<MenuRole>().eq(rIdColumn, rid)) >= 0) {
             if (null != mIds && mIds.length != 0) {
@@ -70,14 +65,46 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
         return ResponseBean.error(500, "更新失败!", null);
     }
 
-    /**
-     * 判断rid是否合法
-     * @param rid 角色id
-     * @return 如果合法则返回true，不合法直接抛出异常
-     */
-    private boolean ridIncluded(Integer rid) {
-        List<Integer> ridList = roleService.getRidList();
-        return ridList.contains(rid);
+    @Override
+    public ResponseBean addMenuRole(Integer rid, Integer mid) {
+        if (null != mid && mIdsNorIncluded(mid)) {
+            return ResponseBean.error(500, "非法的菜单参数!", null);
+        }
+        Map<String, Integer> map = getParamMap(rid, mid);
+        menuRoleMapper.addMenuRole(map);
+        int result = map.get("result");
+        if (result == 1) {
+            cleanupCache();
+            return ResponseBean.success("更新成功!", null);
+        } else if (result == -1) {
+            return ResponseBean.error(400, "该用户已经具有该权限!", null);
+        } else {
+            return ResponseBean.error(500, "更新失败!", null);
+        }
+    }
+
+    @Override
+    public ResponseBean deleteMenuRole(Integer rid, Integer mid) {
+        if (null != mid && mIdsNorIncluded(mid)) {
+            return ResponseBean.error(500, "非法的菜单参数!", null);
+        }
+        Map<String, Integer> map = getParamMap(rid, mid);
+        menuRoleMapper.deleteMenuRole(map);
+        int result = map.get("result");
+        if (result == 1) {
+            cleanupCache();
+            return ResponseBean.success("删除成功!", null);
+        } else if (result != -1) {
+            return ResponseBean.error(400, "该用户不存在该权限!", null);
+        } else {
+            return ResponseBean.error(500, "删除失败!", null);
+        }
+    }
+
+    @Override
+    public void cleanupCache() {
+        redisTemplate.delete(RedisUtil.MENU_WITH_ROLE);
+        redisTemplate.delete(RedisUtil.ROLE_LIST_WITH_MENU);
     }
 
     /**
@@ -85,19 +112,30 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
      * @param mIds mIds数组
      * @return 如果合法则返回true，不合法直接抛出异常
      */
-    private boolean mIdsIncluded(Integer... mIds) {
-        mIds = FunctionUtil.distinct(mIds);
+    private boolean mIdsNorIncluded(@NotNull Integer... mIds) {
+        if (mIds.length > 1) {
+            mIds = FunctionUtil.distinct(mIds);
+        }
         List<Integer> midList = menuService.getMidList();
         for (Integer midToAdd : mIds) {
             if (!midList.contains(midToAdd)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    @Override
-    public void cleanupCache() {
-        redisTemplate.delete(RedisUtil.MENU_WITH_ROLE);
+    /**
+     * 构造mysql存储过程所用的参数map
+     * @param rid rid
+     * @param mid mid
+     * @return 参数map
+     */
+    private Map<String, Integer> getParamMap(Integer rid, Integer mid) {
+        Map<String, Integer> map = new HashMap<>(3);
+        map.put("rid", rid);
+        map.put("mid", mid);
+        map.put("result", null);
+        return map;
     }
 }

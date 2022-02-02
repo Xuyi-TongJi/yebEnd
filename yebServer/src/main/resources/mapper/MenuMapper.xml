@@ -46,16 +46,7 @@
             <collection property="children" ofType="edu.seu.server.common.pojo.MenuPojo">
                 <id column="id3" property="id"/>
                 <result column="name3" property="name"/>
-                <collection property="rIds" ofType="java.lang.Integer" javaType="java.util.Set">
-                    <result column="rid"/>
-                </collection>
             </collection>
-            <collection property="rIds" ofType="java.lang.Integer" javaType="java.util.Set">
-                <result column="rid"/>
-            </collection>
-        </collection>
-        <collection property="rIds" ofType="java.lang.Integer" javaType="java.util.Set">
-            <result column="rid"/>
         </collection>
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -105,18 +96,23 @@
                m2.id AS id2,
                m2.name AS name2,
                m3.id AS id3,
-               m3.name AS name3,
-               r.id AS rid
+               m3.name AS name3
         FROM t_menu AS m1,
              t_menu AS m2,
-             t_menu AS m3,
-             t_menu_role AS mr,
-             t_role AS r
+             t_menu AS m3
         WHERE m2.parentId = m1.id
           AND m3.parentId = m2.id
           AND m3.enabled = true
-          AND m3.id = mr.mid
-          AND r.id = mr.rid
         ORDER BY m1.id
+    </select>
+
+    <select id="getMidList" resultType="java.lang.Integer">
+        SELECT m3.id
+        FROM t_menu AS m1,
+             t_menu AS m2,
+             t_menu AS m3
+        WHERE m2.parentId = m1.id
+          AND m3.parentId = m2.id
+          AND m3.enabled = true
     </select>
 </mapper>

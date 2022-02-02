@@ -56,9 +56,14 @@ public class AdminController {
         }
     }
 
+    /**
+     * 通过姓名关键字搜索操作员
+     * @param keywords 姓名关键字,可以为空
+     * @return 操作员list
+     */
     @ApiOperation("获取所有操作员")
     @GetMapping("/")
-    public List<Admin> getAdminList(@RequestParam String keywords) {
+    public List<Admin> getAdminList(String keywords) {
         return adminService.getAdminListByKeywords(keywords);
     }
 

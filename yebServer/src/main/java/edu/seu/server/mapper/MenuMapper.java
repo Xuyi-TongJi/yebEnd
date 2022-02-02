@@ -36,4 +36,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return 对应的菜单列表实体类
      */
     List<MenuPojo> getAllMenus();
+
+    /**
+     * 查询所有末级菜单的id，在权限增删操作时，mid只允许为以下列表中的值
+     * @return 菜单id列表
+     */
+    List<Integer> getMidList();
 }

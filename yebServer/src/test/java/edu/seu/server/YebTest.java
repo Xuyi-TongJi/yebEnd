@@ -6,6 +6,7 @@ import edu.seu.server.config.messageQueue.MessageQueueProperties;
 import edu.seu.server.config.swagger.Swagger2Config;
 import edu.seu.server.mapper.DepartmentMapper;
 import edu.seu.server.mapper.EmployeeMapper;
+import edu.seu.server.mapper.MenuRoleMapper;
 import edu.seu.server.pojo.*;
 import edu.seu.server.service.IAdminService;
 import edu.seu.server.service.IMenuService;
@@ -20,9 +21,10 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest(classes = YebServerApplication.class)
 @RunWith(value = SpringRunner.class)
@@ -58,6 +60,9 @@ public class YebTest {
     @Autowired
     MessageQueueProperties messageQueueProperties;
 
+    @Autowired
+    MenuRoleMapper menuRoleMapper;
+
     @Test
     public void test01() {
         Admin admin = adminService.getAdminByUsername("xxxxxx");
@@ -75,12 +80,6 @@ public class YebTest {
         for (Role role: roleListByAdminId) {
             System.out.println(role);
         }
-    }
-
-    @Test
-    public void test04() {
-        List<Integer> list = (List<Integer>)redisTemplate.opsForValue().get(RedisUtil.ROLE_ID_LIST);
-        Assert.assertTrue(CollectionUtils.isEmpty(list));
     }
 
     @Test
@@ -153,5 +152,31 @@ public class YebTest {
     @Test
     public void test13() {
         System.out.println(messageQueueProperties.getConfirmQueueName());
+    }
+
+    @Test
+    public void test14() {
+        Map<String, Integer> map = new HashMap<>(3);
+        map.put("rid", 8);
+        map.put("mid", 7);
+        map.put("result", null);
+        menuRoleMapper.addMenuRole(map);
+        System.out.println(map.get("result"));
+    }
+
+    @Test
+    public void test15() {
+        Map<String, Integer> map = new HashMap<>(3);
+        map.put("rid", 8);
+        map.put("mid", 7);
+        map.put("result", null);
+        menuRoleMapper.deleteMenuRole(map);
+        System.out.println(map.get("result"));
+    }
+
+    @Test
+    public void test16() {
+        menuService.cleanupCache();
+        menuService.getMidList().forEach(System.out::println);
     }
 }

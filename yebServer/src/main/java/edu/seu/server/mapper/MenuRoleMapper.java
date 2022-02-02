@@ -5,7 +5,7 @@ import edu.seu.server.pojo.MenuRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,4 +25,16 @@ public interface MenuRoleMapper extends BaseMapper<MenuRole> {
      * @return 受影响的条数
      */
     Integer insertBatch(@Param("rid") Integer rid, @Param("mIds") Integer[] mIds);
+
+    /**
+     * 根据rid，mid为对应角色添加菜单
+     * @param map 包含mid,rid,result的map集合
+     */
+    void addMenuRole(Map<String, Integer> map);
+
+    /**
+     * 根据rid,mid为对应角色删除菜单
+     * @param map 包含mid,rid,result的map集合
+     */
+    void deleteMenuRole(Map<String, Integer> map);
 }

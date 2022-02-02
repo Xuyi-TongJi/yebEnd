@@ -19,7 +19,7 @@ public interface DepartmentMapper extends BaseMapper<Department> {
 
     /**
      * 获得所有部门，采用分级封装
-     * @param parentId MyBatis递归sql,查询所有菜单时，该值为-1
+     * @param parentId 父菜单id，MyBatis递归sql,查询所有菜单时，该值为-1
      * @return 顶级部门的列表，其子部门封装在children属性内
      */
     List<Department> getDepartmentList(Integer parentId);

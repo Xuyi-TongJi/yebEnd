@@ -20,10 +20,4 @@ public interface IRoleService extends ICacheService<Role> {
      * @return 角色实体类列表
      */
     List<Role> getRoleWithMenus();
-
-    /**
-     * 获得角色id列表
-     * @return 角色id列表
-     */
-    List<Integer> getRidList();
 }
